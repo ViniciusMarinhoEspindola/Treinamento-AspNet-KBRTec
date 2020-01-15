@@ -6,17 +6,25 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Olá " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Fazer logoff</a></li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                @Html.ActionLink("Área do Admin", "Index", "Admin", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                @Html.ActionLink("Área do consultor", "Index", "Consultores", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+            </li>
+        }
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
     </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Registrar", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Login", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="nav-item">@Html.ActionLink("Entrar como consultor", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link" })</li>
     </ul>
 }

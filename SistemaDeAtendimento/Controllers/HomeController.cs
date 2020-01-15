@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SistemaDeAtendimento.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,11 @@ namespace SistemaDeAtendimento.Controllers
 {
     public class HomeController : Controller
     {
+        private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         public ActionResult Index()
         {
-            return View();
+            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.OrderByDescending(s => s.OrdemRegistros).ToList();
+            return View(User);
         }
 
         public ActionResult About()
@@ -24,6 +27,11 @@ namespace SistemaDeAtendimento.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Chat()
+        {
             return View();
         }
     }

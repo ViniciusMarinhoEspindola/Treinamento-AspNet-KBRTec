@@ -30,6 +30,5 @@ namespace SistemaDeAtendimento.Entity
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<Consultores> Consultores { get; set; }
     }
 }

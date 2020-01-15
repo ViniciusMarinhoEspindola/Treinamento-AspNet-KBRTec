@@ -1,0 +1,64 @@
+﻿@model IEnumerable<SistemaDeAtendimento.Entity.AspNetUsers>
+@{
+    ViewBag.Title = "Chat";
+}
+<h2 class="text-center mt-3">Chat com o consultor</h2>
+
+@*<label>
+        grupo:
+        <select id="grupo">
+            <option value="todos">Todos</option>
+            <option value="adm">Administradores</option>
+            <option value="usuario">Usuarios</option>
+        </select>
+    </label>*@
+
+<div class="container">
+    <div class="row">
+        <div id="discussion" class="col-12 my-5" style="height: 70vh; overflow:auto; border-left: 2px solid gray; border-right: 2px solid gray; border-top: 2px solid gray;">
+        </div>
+
+        <div class="mx-3" style="position: fixed; bottom:10px; width:80%">
+            <div class="form-row">
+                <input type="text" class="col-9 form-control" id="message" />
+                <input type="button" class="btn btn-danger col-1" id="sendmessage" value="Enviar" />
+                <input type="hidden" id="displayname" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            var chat = $.connection.chatHub;
+            //var grupoAtual = 'todos';
+            chat.client.addNewMessageToPage = function (name, message) {
+                $('#discussion').append('<p><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</p>');
+            };
+
+            $('#displayname').val(prompt('Coloque seu nome:', ''));
+            $('#message').focus();
+
+            //$('#grupo').change(function () {
+            //    chat.server.removeFromGroup(grupoAtual);
+            //    grupoAtual = $('#grupo').val();
+            //    chat.server.addToGroup(grupoAtual);
+            //});
+
+            $.connection.hub.start().done(function () {
+                chat.server.addToGroup("@ViewBag.GroupId");
+                $('#sendmessage').click(function () {
+                    chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId");
+                    $('#message').val('').focus();
+                });
+            });
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+    </script>
+}

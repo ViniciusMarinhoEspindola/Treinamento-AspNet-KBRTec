@@ -1,7 +1,70 @@
-﻿
+﻿@model IEnumerable<SistemaDeAtendimento.Entity.AspNetUsers>
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Admin</h2>
+<h2>Lista de Consultores</h2>
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+<p>
+    @Html.ActionLink("Cadastrar Novo Usuário", "Register", "Consultores", new { @class = "btn btn-danger" })
+</p>
+<table class="table" id="consultores">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                Editar
+            </th>
+            <th>
+                Excluir
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img style="max-width:100px" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+            </td>
+            <td>
 
+                <form action="/Admin/Consultores/Delete/@Html.DisplayFor(modelItem => item.Id)" method="POST">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

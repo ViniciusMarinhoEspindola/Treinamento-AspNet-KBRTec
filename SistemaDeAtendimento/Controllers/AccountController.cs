@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -76,10 +77,15 @@ namespace SistemaDeAtendimento.Controllers
             // Isso não conta falhas de login em relação ao bloqueio de conta
             // Para permitir que falhas de senha acionem o bloqueio da conta, altere para shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var user = await UserManager.FindByNameAsync(model.Email);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (UserManager.IsInRole(user.Id, "Admin"))
+                    {
+                        return RedirectToLocal(returnUrl + "/Admin");
+                    }
+                    return RedirectToLocal(returnUrl + "/Consultores");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -136,8 +142,8 @@ namespace SistemaDeAtendimento.Controllers
 
         //
         // GET: /Account/Register
-
-        [Authorize(Roles = "Admin")]
+       
+       [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -153,18 +159,29 @@ namespace SistemaDeAtendimento.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                var file = model.Foto;
+                string foto = null;
+                if (file != null)
+                {
+                    foto = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(file.FileName);
+                    string path = System.IO.Path.Combine(Server.MapPath("~/images"), foto);
+                    file.SaveAs(path);
+                }
                 var user = new ApplicationUser { 
                     UserName = model.Email, 
                     Email = model.Email,
                     Nome = model.Nome,
-                    Foto = model.Foto,
+                    Foto = foto,
                     Descricao = model.Descricao
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await UserManager.SendEmailAsync(user.Id, "Aviso de cadastro", "Você foi cadastrado como consultor no sistema de atendimento com as seguintes informações: \n E-mail: " + user.Email + "\n Senha: " + model.Password);
+                    //Email ^
+                    
                     // Para obter mais informações sobre como habilitar a confirmação da conta e redefinição de senha, visite https://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar um email com este link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -172,8 +189,9 @@ namespace SistemaDeAtendimento.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirmar sua conta", "Confirme sua conta clicando <a href=\"" + callbackUrl + "\">aqui</a>");
 
                     UserManager.AddToRole(user.Id, "Consultor");
-
-                    return RedirectToAction("Index", "Home");
+                    
+                    TempData["Message"] = "Cadastrado com sucesso!";
+                    return RedirectToAction("Index", "Admin");
                 }
                 AddErrors(result);
             }

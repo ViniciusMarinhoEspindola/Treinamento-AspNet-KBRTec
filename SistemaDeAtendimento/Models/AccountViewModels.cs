@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace SistemaDeAtendimento.Models
 {
@@ -67,8 +68,9 @@ namespace SistemaDeAtendimento.Models
         [Required]
         public string Nome { get; set; }
 
-        [Required]
-        public string Foto { get; set; }
+        [DataType(DataType.Upload)]
+        [Display(Name = "Foto de Perfil")]
+        public HttpPostedFileBase Foto { get; set; }
 
         [Required]
         public string Descricao { get; set; }

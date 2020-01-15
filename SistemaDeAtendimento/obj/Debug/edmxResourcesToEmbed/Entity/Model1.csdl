@@ -61,19 +61,7 @@
     <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-  </EntityType>
-  <EntityType Name="Consultores">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="nome" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="foto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="senha" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="descricão" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="perfil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="OrdemRegistros" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -113,7 +101,6 @@
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
-    <EntitySet Name="Consultores" EntityType="Self.Consultores" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />

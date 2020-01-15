@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,7 +20,11 @@ namespace SistemaDeAtendimento
         public Task SendAsync(IdentityMessage message)
         {
             // Conecte o seu serviço de email aqui para enviar um email.
-            return Task.FromResult(0);
+            SmtpClient client = new SmtpClient();
+            return client.SendMailAsync("webmaster@ambiente-dev5.provisorio.ws",
+                                        message.Destination,
+                                        message.Subject,
+                                        message.Body);
         }
     }
 

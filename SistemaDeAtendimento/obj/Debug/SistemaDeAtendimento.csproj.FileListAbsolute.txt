@@ -112,5 +112,13 @@ C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.CopyComplete
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.dll
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.pdb
-C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.consultormigration.resources
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.Core.pdb
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.ConsultorMigration.resources
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.GenerateResource.cache
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\pt-br\Microsoft.AspNet.SignalR.Core.resources.dll
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\pt-br\Microsoft.AspNet.SignalR.SystemWeb.resources.dll

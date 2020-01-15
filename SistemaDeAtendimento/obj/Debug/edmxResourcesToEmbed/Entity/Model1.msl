@@ -41,6 +41,7 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.AspNetUsers">
         <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="OrdemRegistros" ColumnName="OrdemRegistros" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -56,20 +57,6 @@
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Foto" ColumnName="Foto" />
           <ScalarProperty Name="Descricao" ColumnName="Descricao" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Consultores">
-      <EntityTypeMapping TypeName="SistemaAtendimentoModel.Consultores">
-        <MappingFragment StoreEntitySet="Consultores">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="nome" ColumnName="nome" />
-          <ScalarProperty Name="foto" ColumnName="foto" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="senha" ColumnName="senha" />
-          <ScalarProperty Name="celular" ColumnName="celular" />
-          <ScalarProperty Name="descricão" ColumnName="descricão" />
-          <ScalarProperty Name="perfil" ColumnName="perfil" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
