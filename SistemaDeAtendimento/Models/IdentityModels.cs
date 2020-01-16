@@ -16,6 +16,7 @@ namespace SistemaDeAtendimento.Models
         public string Foto { get; set; }
         public string Descricao { get; set; }
 
+        public string Status { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Observe que o authenticationType deve corresponder àquele definido em CookieAuthenticationOptions.AuthenticationType

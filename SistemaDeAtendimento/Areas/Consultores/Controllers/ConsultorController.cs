@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using SistemaDeAtendimento.Areas.Consultores.Models;
+using SistemaDeAtendimento.Entity;
 
 namespace SistemaDeAtendimento.Areas.Consultores.Controllers
 {
     [Authorize(Roles = "Consultor")]
     public class ConsultorController : Controller
     {
+        private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -88,6 +90,14 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
             }
             AddErrors(result);
             return View(model);
+        }
+
+        public ActionResult ChangeStatus(string UserId)
+        {
+            var user = db.AspNetUsers.Find(UserId);
+            var TrocaStatus = user.Status == "Ocupado" ? user.Status = "Disponível" : user.Status = "Ocupado";
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         private void AddErrors(IdentityResult result)

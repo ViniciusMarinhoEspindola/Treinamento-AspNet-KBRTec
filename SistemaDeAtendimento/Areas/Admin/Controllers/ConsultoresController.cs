@@ -67,7 +67,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
+        
         public ActionResult Register()
         {
             return View();
@@ -78,7 +78,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        
         public async Task<ActionResult> Register(Models.RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -98,7 +98,8 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                     Email = model.Email,
                     Nome = model.Nome,
                     Foto = foto,
-                    Descricao = model.Descricao
+                    Descricao = model.Descricao,
+                    Status = "Ocupado"
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

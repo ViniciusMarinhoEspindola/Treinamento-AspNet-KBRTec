@@ -20,6 +20,11 @@ namespace SistemaDeAtendimento.ChatHub
             }
         }
 
+        public void List(string name, string tipo, string group)
+        {
+            Clients.Group(group).listChatNames(name, tipo);
+        }
+
         public async Task AddToGroup(string groupName)
         {
             await Groups.Add(Context.ConnectionId, groupName);

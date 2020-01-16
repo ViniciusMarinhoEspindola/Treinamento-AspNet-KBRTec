@@ -2,21 +2,21 @@
 @using SistemaDeAtendimento.App_Start
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right nav-link" }))
     {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Olá " + User.Identity.GetName(), "Index", "Consultores", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
+            <li class="nav-item">
+                @Html.ActionLink("Olá " + User.Identity.GetName(), "Index", "Consultores", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage", @class="nav-link" })
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Sair</a></li>
         </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Entrar como consultor", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="nav-item">@Html.ActionLink("Entrar como consultor", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink nav-link" })</li>
     </ul>
 }

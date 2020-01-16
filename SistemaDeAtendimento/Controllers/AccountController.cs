@@ -9,6 +9,7 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SistemaDeAtendimento.Entity;
 using SistemaDeAtendimento.Models;
 
 namespace SistemaDeAtendimento.Controllers
@@ -16,6 +17,7 @@ namespace SistemaDeAtendimento.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -85,6 +87,10 @@ namespace SistemaDeAtendimento.Controllers
                     {
                         return RedirectToLocal(returnUrl + "/Admin");
                     }
+                    var torcaStatus = db.AspNetUsers.Find(user.Id);
+                    torcaStatus.Status = "Ocupado";
+                    db.SaveChanges();
+
                     return RedirectToLocal(returnUrl + "/Consultores");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -419,6 +425,9 @@ namespace SistemaDeAtendimento.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var torcaStatus = db.AspNetUsers.Find(User.Identity.GetUserId());
+            torcaStatus.Status = "Ocupado";
+            db.SaveChanges();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }

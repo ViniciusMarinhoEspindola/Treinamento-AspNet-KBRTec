@@ -118,7 +118,7 @@ C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.Core.xml
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
-C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.ConsultorMigration.resources
-C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.GenerateResource.cache
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\pt-br\Microsoft.AspNet.SignalR.Core.resources.dll
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\pt-br\Microsoft.AspNet.SignalR.SystemWeb.resources.dll
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.Status.resources
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.GenerateResource.cache

@@ -222,9 +222,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ChatHub\ChatHub.cs" />
-    <Compile Include="Migrations\202001151646332_Consultor-Migration.cs" />
-    <Compile Include="Migrations\202001151646332_Consultor-Migration.Designer.cs">
-      <DependentUpon>202001151646332_Consultor-Migration.cs</DependentUpon>
+    <Compile Include="Migrations\202001161236294_Status.cs" />
+    <Compile Include="Migrations\202001161236294_Status.Designer.cs">
+      <DependentUpon>202001161236294_Status.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -441,12 +441,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001151646332_Consultor-Migration.resx">
-      <DependentUpon>202001151646332_Consultor-Migration.cs</DependentUpon>
-    </EmbeddedResource>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <EmbeddedResource Include="Migrations\202001161236294_Status.resx">
+      <DependentUpon>202001161236294_Status.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

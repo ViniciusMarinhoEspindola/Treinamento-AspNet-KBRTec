@@ -38,6 +38,7 @@ namespace SistemaDeAtendimento.Entity
         public string Foto { get; set; }
         public string Descricao { get; set; }
         public int OrdemRegistros { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }

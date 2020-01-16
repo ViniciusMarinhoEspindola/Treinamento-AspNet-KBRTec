@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
 }
@@ -11,3 +11,7 @@
 }
 
 @Html.ActionLink("Alterar senha", "ChangePassword", new { @class = "btn btn-warning" })
+
+@Html.ActionLink("Entrar no chat", "Index", "Chat", new { area = "" }, new { @class = "btn btn-warning" })
+
+@Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning" })

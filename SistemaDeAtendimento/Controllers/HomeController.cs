@@ -12,7 +12,7 @@ namespace SistemaDeAtendimento.Controllers
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         public ActionResult Index()
         {
-            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.OrderByDescending(s => s.OrdemRegistros).ToList();
+            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(a => a.Status == "Disponível").OrderByDescending(s => s.OrdemRegistros).ToList();
             return View(User);
         }
 

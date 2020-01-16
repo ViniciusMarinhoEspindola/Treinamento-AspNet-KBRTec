@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SistemaDeAtendimento.ChatHub;
 using SistemaDeAtendimento.Entity;
 using Microsoft.AspNet.Identity;
+using SistemaDeAtendimento.App_Start;
 
 namespace SistemaDeAtendimento.Controllers
 {
@@ -18,9 +19,15 @@ namespace SistemaDeAtendimento.Controllers
             if (User.IsInRole("Consultor"))
             {
                 ViewBag.GroupId = User.Identity.GetUserId();
+                ViewBag.Consultor = User.Identity.GetName();
             }
             else
             {
+                if (!string.IsNullOrEmpty(TempData["groupId"].ToString())) {
+                    var user = db.AspNetUsers.Find(TempData["groupId"]);
+                    if (user.Status == "Ocupado")
+                        return RedirectToAction("index", "Home");
+                }
                 ViewBag.GroupId = TempData["groupId"];
             }
             //var User = db.AspNetUsers.Where(s => s.Id == TempData["groupId"]).First();
