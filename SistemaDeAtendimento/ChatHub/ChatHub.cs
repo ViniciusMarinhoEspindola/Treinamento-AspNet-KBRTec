@@ -4,15 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
+using SistemaDeAtendimento.Entity;
 
 namespace SistemaDeAtendimento.ChatHub
 {
     public class ChatHub : Hub
     {
-        public void Send(string name, string message, string group = "Todos")
+        private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
+        public void Send(string name, string message, string group, bool remetente, int IdConversa)
         {
             try
             {
+                var msg = new Mensagens { Mensagem = message, Remetente = remetente, ConversaId = IdConversa, data = DateTime.Now };
+                db.Mensagens.Add(msg);
+                db.SaveChanges();
+
                 Clients.Group(group).addNewMessageToPage(name, message);
             } catch
             {
@@ -20,10 +26,7 @@ namespace SistemaDeAtendimento.ChatHub
             }
         }
 
-        public void List(string name, string tipo, string group)
-        {
-            Clients.Group(group).listChatNames(name, tipo);
-        }
+      
 
         public async Task AddToGroup(string groupName)
         {

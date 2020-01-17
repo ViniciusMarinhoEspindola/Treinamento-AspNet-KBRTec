@@ -16,23 +16,24 @@ namespace SistemaDeAtendimento.Controllers
             return View(User);
         }
 
-        public ActionResult About()
+        public ActionResult Visitante(string idConsultor)
         {
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.idConsultor = idConsultor;
             return View();
         }
-
-        public ActionResult Contact()
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Visitante(string groupId, [Bind(Include = "Nome,Email,Celular")] Visitante visitante)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Chat()
-        {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var visita = db.Visitante.Add(visitante);
+                db.SaveChanges();
+                
+                return RedirectToAction("Entrar", "Chat", new { groupId = groupId, visitanteId = visita.IdVisitante });
+            }
+            return View(visitante);
         }
     }
 }

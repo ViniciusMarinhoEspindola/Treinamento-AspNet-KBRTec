@@ -122,3 +122,4 @@ C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\bin\pt-br\Microsoft.AspNet.SignalR.SystemWeb.resources.dll
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.Status.resources
 C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.GenerateResource.cache
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.Mensagens.resources

@@ -69,5 +69,35 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Conversa">
+      <EntityTypeMapping TypeName="SistemaAtendimentoModel.Conversa">
+        <MappingFragment StoreEntitySet="Conversa">
+          <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
+          <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
+          <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mensagens">
+      <EntityTypeMapping TypeName="SistemaAtendimentoModel.Mensagens">
+        <MappingFragment StoreEntitySet="Mensagens">
+          <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="Remetente" ColumnName="Remetente" />
+          <ScalarProperty Name="Mensagem" ColumnName="Mensagem" />
+          <ScalarProperty Name="IdMensagem" ColumnName="IdMensagem" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Visitante">
+      <EntityTypeMapping TypeName="SistemaAtendimentoModel.Visitante">
+        <MappingFragment StoreEntitySet="Visitante">
+          <ScalarProperty Name="Celular" ColumnName="Celular" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

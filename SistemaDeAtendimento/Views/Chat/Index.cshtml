@@ -13,18 +13,6 @@
         </select>
     </label>*@
 
-<div style="position:absolute; left: 10px; top:200px; max-width:220px;">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Usuários no Chat</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>
-</div>
 <div class="container">
     <div class="row">
 
@@ -52,16 +40,13 @@
                 $('#discussion').append('<p><strong>' + name + '</strong>: ' + htmlEncode(message) + '</p>');
             };
 
-            chat.client.listChatNames = function (name, tipo) {
-                $("table tbody").append("<tr><td>" + name + " - " + tipo + "</td></tr>");
-            };
+            //chat.client.listChatNames = function (name, tipo) {
+            //    $("table tbody").append("<tr><td>" + name + " - " + tipo + "</td></tr>");
+            //};
             
-            var consultor = "Consultor";
-            $('#displayname').val("@ViewBag.Consultor");
-            if (!$('#displayname').val()) {
-                $('#displayname').val(prompt('Coloque seu nome:', ''));
-                consultor = "Usuário";
-            }
+            
+            $('#displayname').val("@ViewBag.Nome");
+           
 
             //$("#Nome").html($("#Nome").html() + $('#displayname').val())
             $('#message').focus();
@@ -74,12 +59,12 @@
             //});
 
             $.connection.hub.start().done(function () {
-                $(document).ready(function () {
-                    chat.server.list($('#displayname').val(), consultor, "@ViewBag.GroupId");
-                });
+                @*$(document).ready(function () {
+                    chat.server.list($('#displayname').val(), "@ViewBag.GroupId");
+                });*@
                 chat.server.addToGroup("@ViewBag.GroupId");
                 $('#sendmessage').click(function () {
-                    chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId");
+                    chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId", @ViewBag.Consultor, @ViewBag.IdConversa);
                     $('#message').val('').focus();
                 });
             });
