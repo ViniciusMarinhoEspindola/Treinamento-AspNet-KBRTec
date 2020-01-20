@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SistemaDeAtendimento.Entity.Conversa>
+
+@{
+    ViewBag.Title = "Atendimentos";
+}
+
+<h2 class="mb-3 mt-4">Área do Consultor</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
+<div id="notificacao" class="" style="width=100px;border-radius:10px;">
+</div>
+
+<div style="display:flex; justify-content:center;">
+    @Html.ActionLink("Voltar ao início", "Index", "Consultores", new { @class = "btn btn-danger mx-2 text-light" })
+</div>
+
+<h3 class="text-center my-5">Histórico de atendimentos</h3>
+
+<table class="table mb-5" id="consultores">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Consultor
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Data
+            </th>
+            <th>
+                Detalhes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdConversa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AspNetUsers.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Visitante.Nome)
+                </td>
+                <td>
+                    Dia e hora
+                </td>
+                <td>
+                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-danger text-light" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="height:50px;"></div>

@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sistema de Atendimento</title>
-    
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
 </head>
@@ -22,7 +22,7 @@
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    
+
     <div class="container body-content">
         @RenderBody()
 
@@ -34,5 +34,7 @@
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
+
+    
 </body>
 </html>

@@ -18,6 +18,11 @@ namespace SistemaDeAtendimento.Controllers
 
         public ActionResult Visitante(string idConsultor)
         {
+            
+            var user = db.AspNetUsers.Find(idConsultor);
+            if (user.Status == "Ocupado")
+                return RedirectToAction("index", "Home");
+            
             ViewBag.idConsultor = idConsultor;
             return View();
         }

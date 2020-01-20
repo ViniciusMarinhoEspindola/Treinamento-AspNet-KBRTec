@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AtendimentosController.cs" />
     <Compile Include="Areas\Admin\Controllers\ConsultoresController.cs" />
     <Compile Include="Areas\Admin\Models\ConsultoresViewModel.cs" />
     <Compile Include="Areas\Consultores\ConsultoresAreaRegistration.cs" />
@@ -224,6 +225,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Notificacoes.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Visitante.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -235,9 +239,13 @@
     <Compile Include="Migrations\202001161236294_Status.Designer.cs">
       <DependentUpon>202001161236294_Status.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001171219119_Mensagens.cs" />
-    <Compile Include="Migrations\202001171219119_Mensagens.Designer.cs">
-      <DependentUpon>202001171219119_Mensagens.cs</DependentUpon>
+    <Compile Include="Migrations\202001162340100_Mensagens.cs" />
+    <Compile Include="Migrations\202001162340100_Mensagens.Designer.cs">
+      <DependentUpon>202001162340100_Mensagens.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001181911591_Notificacao.cs" />
+    <Compile Include="Migrations\202001181911591_Notificacao.Designer.cs">
+      <DependentUpon>202001181911591_Notificacao.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -266,13 +274,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <EntityDeploy Include="Entity\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Entity\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Consultores\Views\web.config" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Consultores\Delete.cshtml" />
@@ -311,6 +312,16 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include=".editorconfig" />
+    <EntityDeploy Include="Entity\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Entity\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Consultores\Views\Consultor\Mensagens.cshtml" />
+    <Content Include="Areas\Admin\Views\Atendimentos\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Atendimentos\Mensagens.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -460,8 +471,11 @@
     <EmbeddedResource Include="Migrations\202001161236294_Status.resx">
       <DependentUpon>202001161236294_Status.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001171219119_Mensagens.resx">
-      <DependentUpon>202001171219119_Mensagens.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001162340100_Mensagens.resx">
+      <DependentUpon>202001162340100_Mensagens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001181911591_Notificacao.resx">
+      <DependentUpon>202001181911591_Notificacao.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

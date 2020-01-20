@@ -12,21 +12,13 @@ namespace SistemaDeAtendimento.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Conversa
+    public partial class Notificacoes
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Conversa()
-        {
-            this.Mensagens = new HashSet<Mensagens>();
-        }
-    
-        public int IdConversa { get; set; }
+        public int IdNotificacao { get; set; }
+        public string MensagemNotificacao { get; set; }
+        public Nullable<int> ConversaId { get; set; }
         public string ConsultorId { get; set; }
-        public Nullable<int> VisitanteId { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual Visitante Visitante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Mensagens> Mensagens { get; set; }
     }
 }

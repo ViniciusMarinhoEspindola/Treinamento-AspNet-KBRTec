@@ -19,19 +19,13 @@ namespace SistemaDeAtendimento.Controllers
             ViewBag.IdConversa = IdConversa;
             if (User.IsInRole("Consultor"))
             {
-                ViewBag.Consultor = true;
+                ViewBag.Consultor = 1;
                 ViewBag.GroupId = User.Identity.GetUserId();
                 ViewBag.Nome = User.Identity.GetName();
             }
             else
             {
-                //if (!string.IsNullOrEmpty(TempData["groupId"].ToString()))
-                //{
-                //    var user = db.AspNetUsers.Find(TempData["groupId"]);
-                //    if (user.Status == "Ocupado")
-                //        return RedirectToAction("index", "Home");
-                //}
-                ViewBag.Consultor = false;
+                ViewBag.Consultor = 0;
                 ViewBag.GroupId = TempData["groupId"];
                 var visitante = db.Visitante.Find(TempData["visitanteId"]);
                 ViewBag.Nome = visitante.Nome;
@@ -40,45 +34,53 @@ namespace SistemaDeAtendimento.Controllers
             return View();
         }
 
-        public ActionResult Entrar(string groupId, int visitanteId = 0)
+        public ActionResult Entrar(string groupId, int? visitanteId)
         {
             //
-            var verificaConsultor = db.Conversa.Where(s => s.ConsultorId == groupId).Where(a => a.VisitanteId == 0).Count();
-            
+            var verificaConsultor = db.Conversa.Where(s => s.ConsultorId == groupId).Where(a => a.VisitanteId == null).Count();
+            var IdConversa = 0;
+
+            TempData["groupId"] = groupId;
+           
             if (verificaConsultor.Equals(0))
             {
                 var conversa = new Conversa { VisitanteId = visitanteId, ConsultorId = groupId };
                 db.Conversa.Add(conversa);
                 db.SaveChanges();
-                //Notificação
-            }
+                IdConversa = conversa.IdConversa;
 
-            if (visitanteId != 0)
-            {    
-                if(!verificaConsultor.Equals(0)) 
-                {
-                    var conversa = db.Conversa.Where(s => s.ConsultorId == groupId).Where(s => s.VisitanteId == 0).OrderByDescending(a => a.IdConversa).First();
-                    conversa.VisitanteId = visitanteId;
-                    db.SaveChanges();
-                }
-                    
-                var torcaStatus = db.AspNetUsers.Find(groupId);
-                torcaStatus.Status = "Ocupado";
-                db.SaveChanges();
-                TempData["visitanteId"] = visitanteId;
+
             } else
             {
-                if (!verificaConsultor.Equals(0))
+                var conversa = db.Conversa.Where(s => s.ConsultorId == groupId).Where(s => s.VisitanteId == null).OrderByDescending(a => a.IdConversa).First();
+                var torcaStatus = db.AspNetUsers.Find(groupId);
+
+                if (User.IsInRole("Consultor"))
                 {
-                    var conversa = db.Conversa.Where(s => s.ConsultorId == groupId).Where(s => s.VisitanteId == 0).OrderByDescending(a => a.IdConversa).First();
+                    TempData["visitanteId"] = 0;                    
+                    torcaStatus.Status = "Disponível";
+                    db.SaveChanges();
                     return RedirectToAction("index", "Chat", new { IdConversa = conversa.IdConversa });
                 }
-                TempData["visitanteId"] = "Sem visitante";
-            }
 
-            TempData["groupId"] = groupId;
+                conversa.VisitanteId = visitanteId;
+                IdConversa = conversa.IdConversa;
+
+                torcaStatus.Status = "Ocupado";
+                
+            }
+            TempData["visitanteId"] = visitanteId;
+            if (!User.IsInRole("Consultor"))
+            {
+                //Cadastrar nova Notificação banco
+                var visitante = db.Visitante.Find(visitanteId);
+                var mensagemNotificacao = "O usuário " + visitante.Nome + " solicitou uma conversa no chat.";
+                var notificacao = new Notificacoes { ConsultorId = groupId, ConversaId = visitanteId, MensagemNotificacao = mensagemNotificacao };
+                db.Notificacoes.Add(notificacao);
+            }
+            db.SaveChanges();
             
-            return RedirectToAction("index", "Chat", new { IdConversa = conversa.IdConversa });
+            return RedirectToAction("index", "Chat", new { IdConversa = IdConversa });
         }
     }
 }

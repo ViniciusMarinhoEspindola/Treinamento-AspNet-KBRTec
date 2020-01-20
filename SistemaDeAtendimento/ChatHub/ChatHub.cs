@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using SistemaDeAtendimento.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace SistemaDeAtendimento.ChatHub
 {
@@ -25,18 +26,40 @@ namespace SistemaDeAtendimento.ChatHub
                 Clients.Group("Todos").addNewMessageToPage(name, message);
             }
         }
+        public void Digite(string groupName, string name)
+        {
+            Clients.Group(groupName).digitandoMessage("O usuário " + name + " está digitando.");
+        }
 
-      
+        public void ApagarDigite(string groupName)
+        {
+            Clients.Group(groupName).apagarDigitandoMessage();
+        }
+        //public override Task OnDisconnected(bool stopCalled)
+        //{
 
-        public async Task AddToGroup(string groupName)
+
+        //    return base.OnDisconnected(stopCalled);
+        //}
+
+        public async Task AddToGroup(string groupName, string name)
         {
             await Groups.Add(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} foi conectado ao grupo {groupName}.");
+            await Clients.Group(groupName).joinGroup("O usuário " + name +  " foi conectado ao chat.");
         }
         public async Task RemoveFromGroup(string groupName)
         {
             await Groups.Remove(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} saiu do grupo {groupName}.");
+            await Clients.Group(groupName).leaveGroup();
+        }
+
+        public void ListNotification(int? idConversa, string idConsultor)
+        {
+            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(s => s.Id == idConsultor).Count();
+            if (!User.Equals(0)) {
+                //var notificacao = db.Notificacoes.Where(s => s.ConsultorId == consultorId).OrderByDescending(a => a.IdNotificacao).First();
+                Clients.All.listar("Um usuário solicitou uma conversa no chat.", idConversa);
+            }
         }
     }
 }

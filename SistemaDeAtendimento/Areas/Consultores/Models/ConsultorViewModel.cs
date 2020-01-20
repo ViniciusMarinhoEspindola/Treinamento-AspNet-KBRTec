@@ -8,6 +8,21 @@ namespace SistemaDeAtendimento.Areas.Consultores.Models
 {
     public class ConsultorViewModel
     {
+        [Required]
+        [Display(Name = "Id")]
+        public int IdConversa { get; set; }
+
+        [Required]
+        [Display(Name = "Consultor")]
+        public string consultor { get; set; }
+
+        [Required]
+        [Display(Name = "Cliente")]
+        public string cliente { get; set; }
+
+        [Required]
+        [Display(Name = "Data")]
+        public DateTimeOffset date { get; set; }
     }
     public class ChangePasswordConsultorViewModel
     {

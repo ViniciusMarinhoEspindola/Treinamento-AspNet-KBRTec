@@ -1,14 +1,20 @@
 ﻿@model IEnumerable<SistemaDeAtendimento.Entity.AspNetUsers>
-
+@using SistemaDeAtendimento.App_Start
 @{
     ViewBag.Title = "Home Page";
 }
 
 <h2 class="text-center my-5">Escolha o consultor com quem deseja falar</h2>
 
-<div class="row">
-    @*@if (string.IsNullOrEmpty(Model.First().Descricao))
-    {*@
+@if (User.IsInRole("Consultor"))
+{
+    <div id="notificacao" class="" style="width=100px;border-radius:10px;">
+    </div>
+}
+
+    <div class="row">
+        @*@if (string.IsNullOrEmpty(Model.First().Descricao))
+            {*@
         @foreach (var item in Model)
         {
             <div class="card col-3">
@@ -25,9 +31,39 @@
                 </div>
             </div>
         }
-    @*}
-    else
-    {
-        <h1 class="text-muted">Não há nenhum consultor disponível no momento</h1>
-    }*@
-</div>
+        @*}
+            else
+            {
+                <h1 class="text-muted">Não há nenhum consultor disponível no momento</h1>
+            }*@
+
+
+    </div>
+    @section scripts {
+        <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+        @*@if (User.IsInRole("Consultor"))
+        {
+            <script>
+            $(function () {
+                var chat = $.connection.chatHub;
+
+                chat.client.listar = function (msg, conversa) {
+                    $("#notificacao").css("border", "1px solid red");
+                    $("#notificacao").addClass("p-5");
+                    $("#notificacao").addClass("alert");
+                    $("#notificacao").html($("#notificacao").html() + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                    $("#notificacao").html($("#notificacao").html() + "<h3 class='text-danger'>Consultor @User.Identity.GetName() </h1>");
+                    $("#notificacao").html($("#notificacao").html() + "<p class='text-black'>" + msg + "</p>");
+                    $("#notificacao").html($("#notificacao").html() + "<a href='https://localhost:44332/Chat?IdConversa=" + conversa + "'><button class='btn btn-danger'>Entrar No chat</button></a>");
+                    
+                };
+                
+
+                $.connection.hub.start().done(function () {
+                    chat.server.listNotification();
+                });
+            });
+            </script>
+        }*@
+    }

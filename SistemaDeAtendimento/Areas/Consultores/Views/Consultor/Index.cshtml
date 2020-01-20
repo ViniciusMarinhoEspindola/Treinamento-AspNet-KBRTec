@@ -1,17 +1,93 @@
 ﻿@using Microsoft.AspNet.Identity
+@using SistemaDeAtendimento.App_Start
+@model IEnumerable<SistemaDeAtendimento.Entity.Conversa>
+
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Consultores</h2>
+<h2 class="mb-3 mt-4">Área do Consultor</h2>
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
     <div class="alert alert-success">@ViewBag.Message</div>
 }
 
-@Html.ActionLink("Alterar senha", "ChangePassword", new { @class = "btn btn-warning" })
+<div id="notificacao" class="" style="width=100px;border-radius:10px;">
+</div>
 
-@Html.ActionLink("Entrar no chat", "Index", "Chat", new { area = "" }, new { @class = "btn btn-warning" })
+<div style="display:flex; justify-content:center;">
+    @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-warning mx-2 text-light" })
 
-@Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Entrar no chat", "Entrar", "Chat", new { area = "", groupId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })
+
+    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })
+</div>
+
+<h3 class="text-center my-5">Histórico de atendimentos</h3>
+
+<table class="table mb-5" id="consultores">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Data
+            </th>
+            <th>
+                Detalhes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdConversa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Visitante.Nome)
+                </td>
+                <td>
+                    Dia e hora
+                </td>
+                <td>
+                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-warning text-light" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="height:50px;"></div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+                $.connection.hub.url = 'https://localhost:44332/signalr';
+                var chat = $.connection.chatHub;
+
+                chat.client.listar = function (msg, conversa) {
+                    $("#notificacao").css("border", "1px solid red");
+                    $("#notificacao").addClass("p-5");
+                    $("#notificacao").addClass("alert");
+                    $("#notificacao").html($("#notificacao").html() + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+                    $("#notificacao").html($("#notificacao").html() + "<h3 class='text-danger'>Consultor @User.Identity.GetName() </h1>");
+                    $("#notificacao").html($("#notificacao").html() + "<p class='text-black'>" + msg + "</p>");
+                    $("#notificacao").html($("#notificacao").html() + "<a href='https://localhost:44332/Chat?IdConversa=" + conversa + "'><button class='btn btn-danger'>Entrar No chat</button></a>");
+
+                };
+
+
+                $.connection.hub.start().done(function () {
+                    chat.server.listNotification();
+                });
+            });
+    </script>
+}
