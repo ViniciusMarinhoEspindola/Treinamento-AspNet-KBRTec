@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SistemaDeAtendimento.Entity.Mensagens>
+@{
+    ViewBag.Title = "Mensagens";
+}
+
+<h2 class="text-center my-5">Histórico de Mensagens</h2>
+
+<div id="discussion" style="height: 60vh; overflow:auto;border:1px solid gray;border-radius:10px">
+    <div class="container">
+        @foreach (var item in Model)
+        {
+
+            <div class="row">
+                <div class="col-10 my-2">
+                    @if (item.Remetente == true)
+                    {
+
+                        <strong>
+                            @Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome):
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong>
+                            @Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome):
+                        </strong>
+                    }
+                    
+                        @Html.DisplayFor(modelItem => item.Mensagem)
+                    
+                </div>
+                <div class="text-muted col-2">
+                    @Html.DisplayFor(modelItem => item.data)
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

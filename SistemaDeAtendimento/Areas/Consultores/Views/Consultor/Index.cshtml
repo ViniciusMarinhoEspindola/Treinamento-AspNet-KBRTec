@@ -1,17 +1,92 @@
 ﻿@using Microsoft.AspNet.Identity
+@using SistemaDeAtendimento.App_Start
+@model IEnumerable<SistemaDeAtendimento.Entity.Conversa>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Consultor";
 }
 
-<h2>Consultores</h2>
+<h2 class="mb-3 mt-4">Área do Consultor</h2>
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-    <div class="alert alert-success">@ViewBag.Message</div>
+    <div class="alert alert-success">
+        @ViewBag.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
-@Html.ActionLink("Alterar senha", "ChangePassword", new { @class = "btn btn-warning" })
+<div id="notificacao" class="" style="width=100px;border-radius:10px;">
+</div>
 
-@Html.ActionLink("Entrar no chat", "Index", "Chat", new { area = "" }, new { @class = "btn btn-warning" })
+<div style="display:flex; justify-content:center;" id="buttons">
+    @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-warning mx-2 text-light" })
 
-@Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning" })
+    @*@Html.ActionLink("Entrar no chat", "Entrar", "Chat", new { area = "", groupId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })*@
+
+    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light", @id = "status" })
+</div>
+
+<h3 class="text-center my-5">Histórico de atendimentos</h3>
+
+<table class="table mb-5" id="consultores">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Início da conversa
+            </th>
+            <th>
+                Detalhes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdConversa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Visitante.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dtConversa)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-warning text-light" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div style="height:50px;"></div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+
+            var chat = $.connection.chatHub;
+
+            chat.client.link = function (link) {
+                $("#notificacao").html("<a href='" + link + "'><div class='alert alert-success'>Um usuário solicitou uma conversa com você pelo chat!</div></a>");
+                $("#buttons").append("<a href='" + link + "' class='btn btn-warning text-light'>Entrar no chat</a>");
+                $("#status").css("display", "none");
+            }
+
+            $.connection.hub.start().done(function () {
+                chat.server.addToGroup("@User.Identity.GetUserId()", "@User.Identity.GetName()");
+            });
+        });
+    </script>
+}

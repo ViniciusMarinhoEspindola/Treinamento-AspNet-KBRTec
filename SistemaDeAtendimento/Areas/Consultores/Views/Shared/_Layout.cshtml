@@ -30,7 +30,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.20/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#consultores').DataTable({
@@ -38,12 +38,10 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Portuguese-Brasil.json"
                 },
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]]
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]]
             });
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip()
-            })
         });
     </script>
+
 </body>
 </html>

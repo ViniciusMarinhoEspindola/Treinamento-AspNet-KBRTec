@@ -1,30 +1,28 @@
 ﻿@model IEnumerable<SistemaDeAtendimento.Entity.AspNetUsers>
+@using Microsoft.AspNet.Identity
+
 @{
     ViewBag.Title = "Chat";
 }
 <h2 class="text-center mt-3">Chat com o consultor</h2>
 
-@*<label>
-        grupo:
-        <select id="grupo">
-            <option value="todos">Todos</option>
-            <option value="adm">Administradores</option>
-            <option value="usuario">Usuarios</option>
-        </select>
-    </label>*@
-
+<div id="msg"></div>
 <div class="container">
     <div class="row">
 
         <p id="Nome"></p>
-        <div id="discussion" class="col-12 my-5" style="height: 70vh; overflow:auto; border-left: 2px solid gray; border-right: 2px solid gray; border-top: 2px solid gray;">
-        </div>
-
-        <div class="mx-3" style="position: fixed; bottom:10px; width:80%">
-            <div class="form-row">
-                <input type="text" class="col-9 form-control" id="message" />
-                <input type="button" class="btn btn-danger col-1" id="sendmessage" value="Enviar" />
-                <input type="hidden" id="displayname" />
+        <div class="col-12 my-5" style="height: 70vh; border-left: 2px solid gray; border-right: 2px solid gray; border-top: 2px solid gray; border-bottom: 2px solid gray;">
+            <div id="discussion" style="height: 60vh; overflow:auto;">
+            </div>
+            <div id="digitando" style="position: absolute; bottom:15px;"></div>
+            <div class="ml-4" style="position: absolute; bottom:-20px; width:100%">
+                <div class="form-row">
+                    <input type="text" class="col-9 form-control" id="message" />
+                    <input type="file" class="col-1 btn btn-warning" id="upload"/>
+                    <input type="button" class="btn btn-danger col-1" id="sendmessage" value="Enviar" />
+                    <input type="hidden" id="displayname" />
+                    <input type="hidden" id="hidden" />
+                </div>
             </div>
         </div>
     </div>
@@ -35,37 +33,60 @@
     <script>
         $(function () {
             var chat = $.connection.chatHub;
-            //var grupoAtual = 'todos';
+
             chat.client.addNewMessageToPage = function (name, message) {
                 $('#discussion').append('<p><strong>' + name + '</strong>: ' + htmlEncode(message) + '</p>');
             };
 
-            //chat.client.listChatNames = function (name, tipo) {
-            //    $("table tbody").append("<tr><td>" + name + " - " + tipo + "</td></tr>");
-            //};
-            
-            
-            $('#displayname').val("@ViewBag.Nome");
-           
+            chat.client.joinGroup = function (name) {
+                $('#discussion').append('<p class="text-muted">' + name + '</p>');
+            };
 
-            //$("#Nome").html($("#Nome").html() + $('#displayname').val())
+            chat.client.digitandoMessage = function (name) {
+                $('#digitando').html('<p class="text-muted">' + name + '</p>');
+            };
+
+            chat.client.apagarDigitandoMessage = function (name) {
+                $('#digitando').html("");
+            };
+
+             chat.client.listar = function (msg) {
+                $('#msg').html('<p class="text-muted">' + msg + '</p>');
+            };
+
+            chat.client.listar = function (msg) {
+                 $('#hidden').val(msg);
+            };
+
+
+            $('#displayname').val("@ViewBag.Nome");
+
             $('#message').focus();
 
-
-            //$('#grupo').change(function () {
-            //    chat.server.removeFromGroup(grupoAtual);
-            //    grupoAtual = $('#grupo').val();
-            //    chat.server.addToGroup(grupoAtual);
-            //});
-
             $.connection.hub.start().done(function () {
-                @*$(document).ready(function () {
-                    chat.server.list($('#displayname').val(), "@ViewBag.GroupId");
-                });*@
-                chat.server.addToGroup("@ViewBag.GroupId");
+                chat.server.addToGroup("@ViewBag.GroupId", $('#displayname').val());
+
+                chat.server.chatLink("@ViewBag.GroupId", @ViewBag.IdConversa);
+
                 $('#sendmessage').click(function () {
+                    if ($("#upload").files.length !== 0) {
+                        $.ajax({
+                            url: "/Upload",
+                            method: "POST",
+                            data: { arq : $("#upload").val(), path: @ViewBag.IdConversa },
+                        });
+                    }
+
                     chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId", @ViewBag.Consultor, @ViewBag.IdConversa);
                     $('#message').val('').focus();
+                });
+
+                $('#message').keypress(function () {
+                   chat.server.digite("@ViewBag.GroupId", $('#displayname').val());
+                });
+
+                $('#message').blur(function () {
+                     chat.server.apagarDigite("@ViewBag.GroupId");
                 });
             });
         });

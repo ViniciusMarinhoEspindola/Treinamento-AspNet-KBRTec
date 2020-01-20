@@ -55,10 +55,19 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
         // GET: Consultores/Consultor
         public ActionResult Index()
         {
+            var consultor = User.Identity.GetUserId();
+            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor.ToString()).Where(s => s.VisitanteId != null).ToList();
+            //var status = db.AspNetUsers.Find(consultor.ToString()).Status;
             ViewBag.Message = TempData["Message"];
-            return View();
+            return View(Atendimentos);
         }
 
+        public ActionResult Mensagens(int conversa)
+        {
+            var mensagens = db.Mensagens.Where(s => s.ConversaId == conversa);
+
+            return View(mensagens);
+        }
 
         // GET: /Admin/ChangePassword
         public ActionResult ChangePassword()
