@@ -31,6 +31,11 @@ namespace SistemaDeAtendimento.ChatHub
             Clients.Group(groupName).digitandoMessage("O usuário " + name + " está digitando.");
         }
 
+        public void ChatLink(string groupName, int? idConversa)
+        {
+            Clients.Group(groupName).link("https://localhost:44332/Chat?IdConversa=" + idConversa);
+        }
+
         public void ApagarDigite(string groupName)
         {
             Clients.Group(groupName).apagarDigitandoMessage();
@@ -45,7 +50,9 @@ namespace SistemaDeAtendimento.ChatHub
         public async Task AddToGroup(string groupName, string name)
         {
             await Groups.Add(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).joinGroup("O usuário " + name +  " foi conectado ao chat.");
+            
+            await Clients.Group(groupName).joinGroup("O usuário " + name + " foi conectado ao chat.");
+            
         }
         public async Task RemoveFromGroup(string groupName)
         {

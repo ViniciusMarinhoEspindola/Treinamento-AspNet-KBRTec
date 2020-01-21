@@ -6,14 +6,6 @@
 }
 <h2 class="text-center mt-3">Chat com o consultor</h2>
 
-@*<label>
-        grupo:
-        <select id="grupo">
-            <option value="todos">Todos</option>
-            <option value="adm">Administradores</option>
-            <option value="usuario">Usuarios</option>
-        </select>
-    </label>*@
 <div id="msg"></div>
 <div class="container">
     <div class="row">
@@ -23,10 +15,12 @@
             <div id="discussion" style="height: 60vh; overflow:auto;">
             </div>
             <div id="digitando" style="position: absolute; bottom:15px;"></div>
-            <div class="ml-4" style="position: absolute; bottom:-20px; width:100%">
+            <div class="ml-5" style="position: absolute; bottom:-20px; width:100%">
                 <div class="form-row">
-                    <input type="text" class="col-10 form-control" id="message" />
-                    <input type="button" class="btn btn-danger col-1" id="sendmessage" value="Enviar" />
+                    <input type="text" class="col-9 form-control" id="message" />
+                    <label id="fileLabel" style="height:40px; max-width:50px" class="btn btn-info col-1 py-2 mx-2" for="upload"><i class="fas fa-file-upload"></i></label>
+                    <input type="file" class="col-1 btn btn-warning" id="upload"  style="display:none;"/>
+                    <input type="button" style="height:40px;" class="btn btn-danger py-2 col-1" id="sendmessage" value="Enviar" />
                     <input type="hidden" id="displayname" />
                     <input type="hidden" id="hidden" />
                 </div>
@@ -38,10 +32,12 @@
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
+        $("#upload").change(function () {
+            $("#message").val($("#upload").val());
+        });
+
         $(function () {
             var chat = $.connection.chatHub;
-
-            ////var grupoAtual = 'todos';
 
             chat.client.addNewMessageToPage = function (name, message) {
                 $('#discussion').append('<p><strong>' + name + '</strong>: ' + htmlEncode(message) + '</p>');
@@ -63,9 +59,6 @@
                 $('#msg').html('<p class="text-muted">' + msg + '</p>');
             };
 
-            ////chat.client.listChatNames = function (name, tipo) {
-            ////    $("table tbody").append("<tr><td>" + name + " - " + tipo + "</td></tr>");
-            ////};
             chat.client.listar = function (msg) {
                  $('#hidden').val(msg);
             };
@@ -73,22 +66,23 @@
 
             $('#displayname').val("@ViewBag.Nome");
 
-            ////$("#Nome").html($("#Nome").html() + $('#displayname').val())
             $('#message').focus();
 
-
-            ////$('#grupo').change(function () {
-            ////    chat.server.removeFromGroup(grupoAtual);
-            ////    grupoAtual = $('#grupo').val();
-            ////    chat.server.addToGroup(grupoAtual);
-            ////});
-
             $.connection.hub.start().done(function () {
-            //    //$(document).ready(function () {
-                    @*chat.server.list($('#displayname').val(), "@ViewBag.GroupId");*@
-                //});
                 chat.server.addToGroup("@ViewBag.GroupId", $('#displayname').val());
+
+                chat.server.chatLink("@ViewBag.GroupId", @ViewBag.IdConversa);
+
                 $('#sendmessage').click(function () {
+                    if ($("#upload").val() !== "") {
+                        console.log("ola")
+                        @*$.ajax({
+                            url: "/Upload",
+                            method: "POST",
+                            data: { arq : $("#upload").val(), path: @ViewBag.IdConversa },
+                        });*@
+                    }
+
                     chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId", @ViewBag.Consultor, @ViewBag.IdConversa);
                     $('#message').val('').focus();
                 });
@@ -99,10 +93,7 @@
 
                 $('#message').blur(function () {
                      chat.server.apagarDigite("@ViewBag.GroupId");
-                    
-                    //setTimeout(function(){  }, 10000)
                 });
-                @*chat.server.listNotification(@ViewBag.IdConversa, "@ViewBag.GroupId");*@
             });
         });
 

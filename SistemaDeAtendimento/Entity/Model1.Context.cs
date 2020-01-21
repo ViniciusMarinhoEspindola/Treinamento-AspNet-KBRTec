@@ -32,7 +32,6 @@ namespace SistemaDeAtendimento.Entity
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Conversa> Conversa { get; set; }
         public virtual DbSet<Mensagens> Mensagens { get; set; }
-        public virtual DbSet<Notificacoes> Notificacoes { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
     }
 }

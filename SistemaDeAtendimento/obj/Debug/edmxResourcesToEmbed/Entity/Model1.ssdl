@@ -73,6 +73,8 @@
     <Property Name="IdConversa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="VisitanteId" Type="int" />
+    <Property Name="dataConversa" Type="datetime" />
+    <Property Name="tempoConversa" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Mensagens">
     <Key>
@@ -83,15 +85,6 @@
     <Property Name="Remetente" Type="bit" />
     <Property Name="data" Type="datetime" />
     <Property Name="ConversaId" Type="int" />
-  </EntityType>
-  <EntityType Name="Notificacoes">
-    <Key>
-      <PropertyRef Name="IdNotificacao" />
-    </Key>
-    <Property Name="IdNotificacao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MensagemNotificacao" Type="nvarchar(max)" />
-    <Property Name="ConversaId" Type="int" />
-    <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
   <EntityType Name="Visitante">
     <Key>
@@ -200,18 +193,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Notificacoes_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-    <End Role="Notificacoes" Type="Self.Notificacoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Notificacoes">
-        <PropertyRef Name="ConsultorId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="SistemaAtendimentoModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -221,7 +202,6 @@
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Conversa" EntityType="Self.Conversa" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Mensagens" EntityType="Self.Mensagens" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Notificacoes" EntityType="Self.Notificacoes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Visitante" EntityType="Self.Visitante" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Conversa_Consultor" Association="Self.FK_Conversa_Consultor">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -250,10 +230,6 @@
     <AssociationSet Name="FK_Mensagem_Conversa" Association="Self.FK_Mensagem_Conversa">
       <End Role="Conversa" EntitySet="Conversa" />
       <End Role="Mensagens" EntitySet="Mensagens" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Notificacoes_AspNetUsers" Association="Self.FK_Notificacoes_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="Notificacoes" EntitySet="Notificacoes" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

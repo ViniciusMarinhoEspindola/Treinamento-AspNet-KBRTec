@@ -63,7 +63,6 @@
     <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
     <NavigationProperty Name="Conversa" Relationship="Self.FK_Conversa_Consultor" FromRole="AspNetUsers" ToRole="Conversa" />
-    <NavigationProperty Name="Notificacoes" Relationship="Self.FK_Notificacoes_AspNetUsers" FromRole="AspNetUsers" ToRole="Notificacoes" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
   </EntityType>
   <EntityType Name="Conversa">
@@ -73,6 +72,8 @@
     <Property Name="IdConversa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ConsultorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="VisitanteId" Type="Int32" />
+    <Property Name="dataConversa" Type="DateTime" Precision="3" />
+    <Property Name="tempoConversa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Conversa_Consultor" FromRole="Conversa" ToRole="AspNetUsers" />
     <NavigationProperty Name="Visitante" Relationship="Self.FK_Conversa_Visitante" FromRole="Conversa" ToRole="Visitante" />
     <NavigationProperty Name="Mensagens" Relationship="Self.FK_Mensagem_Conversa" FromRole="Conversa" ToRole="Mensagens" />
@@ -87,16 +88,6 @@
     <Property Name="data" Type="DateTime" Precision="3" />
     <Property Name="ConversaId" Type="Int32" />
     <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagem_Conversa" FromRole="Mensagens" ToRole="Conversa" />
-  </EntityType>
-  <EntityType Name="Notificacoes">
-    <Key>
-      <PropertyRef Name="IdNotificacao" />
-    </Key>
-    <Property Name="IdNotificacao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MensagemNotificacao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="ConversaId" Type="Int32" />
-    <Property Name="ConsultorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Notificacoes_AspNetUsers" FromRole="Notificacoes" ToRole="AspNetUsers" />
   </EntityType>
   <EntityType Name="Visitante">
     <Key>
@@ -150,18 +141,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Notificacoes_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-    <End Role="Notificacoes" Type="Self.Notificacoes" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Notificacoes">
-        <PropertyRef Name="ConsultorId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Conversa_Visitante">
     <End Role="Visitante" Type="Self.Visitante" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -202,7 +181,6 @@
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
     <EntitySet Name="Conversa" EntityType="Self.Conversa" />
     <EntitySet Name="Mensagens" EntityType="Self.Mensagens" />
-    <EntitySet Name="Notificacoes" EntityType="Self.Notificacoes" />
     <EntitySet Name="Visitante" EntityType="Self.Visitante" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -215,10 +193,6 @@
     <AssociationSet Name="FK_Conversa_Consultor" Association="Self.FK_Conversa_Consultor">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="Conversa" EntitySet="Conversa" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Notificacoes_AspNetUsers" Association="Self.FK_Notificacoes_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="Notificacoes" EntitySet="Notificacoes" />
     </AssociationSet>
     <AssociationSet Name="FK_Conversa_Visitante" Association="Self.FK_Conversa_Visitante">
       <End Role="Visitante" EntitySet="Visitante" />

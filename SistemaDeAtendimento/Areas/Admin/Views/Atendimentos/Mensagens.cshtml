@@ -4,36 +4,84 @@
 }
 
 <h2 class="text-center my-5">Histórico de Mensagens</h2>
+<div class="row">
+    <div class="col-4 row">
+        <div class="col-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center">Dados do Cliente</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center"><hr /></th>
+                    </tr>
 
-<div id="discussion" style="height: 60vh; overflow:auto;border:1px solid gray;border-radius:10px">
-    <div class="container">
-        @foreach (var item in Model)
-        {
+                </thead>
 
-            <div class="row">
-                <div class="col-10 my-2">
-                    @if (item.Remetente == true)
-                    {
+                <tbody>
+                    <tr>
+                        <td><strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Nome)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Email)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Celular:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Celular)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                        <strong>
-                            @Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome):
-                        </strong>
-                    }
-                    else
-                    {
-                        <strong>
-                            @Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome):
-                        </strong>
-                    }
+        <div class="col-12">
+            <table>
+                <tr>
+                    <th class="text-center">Dados do Consultor</th>
+                </tr>
+                <tr>
+                    <th class="text-center"><hr /></th>
+                </tr>
+                <tr>
+                    <td><strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Nome)</td>
+                </tr>
+                <tr>
+                    <td><strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Email)</td>
+                </tr>
+                <tr>
+                    <td><strong>Descrição:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Descricao)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="discussion" class="col-8" style="height: 60vh; overflow:auto;border:1px solid gray;border-radius:10px">
+        <div class="container">
+            @foreach (var item in Model)
+            {
 
-                    @Html.DisplayFor(modelItem => item.Mensagem)
+                <div class="row">
+                    <div class="col-9 my-2">
+                        @if (item.Remetente == true)
+                        {
+
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome):
+                            </strong>
+                        }
+                        else
+                        {
+                            <strong>
+                                @Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome):
+                            </strong>
+                        }
+
+                        @Html.DisplayFor(modelItem => item.Mensagem)
+
+                    </div>
+                    <div class="text-muted col-3">
+                        @Html.DisplayFor(modelItem => item.data)
+                    </div>
 
                 </div>
-                <div class="text-muted col-2">
-                    @Html.DisplayFor(modelItem => item.data)
-                </div>
-
-            </div>
-        }
+            }
+        </div>
     </div>
 </div>

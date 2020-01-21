@@ -11,9 +11,9 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         // GET: Admin/Atendimentos
-        public ActionResult Index()
+        public ActionResult Index(string consultor)
         {
-            var Atendimentos = db.Conversa.ToList();
+            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor).Where(s => s.VisitanteId != null).ToList();
             return View(Atendimentos);
         }
 

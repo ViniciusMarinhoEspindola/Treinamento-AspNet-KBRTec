@@ -25,7 +25,8 @@ namespace SistemaDeAtendimento.Migrations
                     IdConversa = c.Int(nullable: false, identity: true),
                     ConsultorId = c.String(nullable: false, maxLength: 128),
                     VisitanteId = c.Int(nullable: true),
-                    dataConversa = c.DateTimeOffset(),
+                    dataConversa = c.DateTime(),
+                    tempoConversa = c.String(),
                 })
                 .PrimaryKey(t => new { t.IdConversa });
 

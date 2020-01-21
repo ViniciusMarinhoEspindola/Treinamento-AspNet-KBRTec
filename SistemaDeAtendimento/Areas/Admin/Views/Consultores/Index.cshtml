@@ -4,14 +4,19 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Lista de Consultores</h2>
+<h2 class="my-4">Lista de Consultores</h2>
+
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-    <div class="alert alert-success">@ViewBag.Message</div>
+    <div class="alert alert-success">
+        @ViewBag.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 <p>
-    @Html.ActionLink("Cadastrar Novo Usuário", "Register", "Consultores", new { @class = "btn btn-danger" })
-    @Html.ActionLink("Histórico de Atendimentos", "Index", "Atendimentos", new { @class = "btn btn-danger" })
+    @Html.ActionLink("Cadastrar Novo Consultor", "Register", "Consultores", new { @class = "btn btn-danger" })
 </p>
 <table class="table" id="consultores">
     <thead>
@@ -29,12 +34,14 @@
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
+                Atendimentos
+            </th>
+            <th>
                 Editar
             </th>
             <th>
                 Excluir
             </th>
-            
         </tr>
     </thead>
     <tbody>
@@ -54,7 +61,10 @@
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Atendimentos", "index", "Atendimentos", new { consultor = item.Id }, new { @class = "btn btn-danger" })
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-danger" })
             </td>
             <td>
 

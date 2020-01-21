@@ -3,25 +3,40 @@
 @model IEnumerable<SistemaDeAtendimento.Entity.Conversa>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Consultor";
+    ViewBag.Status = Model.First().AspNetUsers.Status == "Ocupado" ? "Ocupado" : "Disponível";
+}
+
+@if (ViewBag.Status == "Disponível")
+{
+    <h5 style="position:absolute; right:35px;" class="text-success">Status: @ViewBag.Status</h5>
+}
+else
+{
+    <h5 style="position:absolute; right:35px;" class="text-danger">Status: @ViewBag.Status</h5>
 }
 
 <h2 class="mb-3 mt-4">Área do Consultor</h2>
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-    <div class="alert alert-success">@ViewBag.Message</div>
+    <div class="alert alert-success">
+        @ViewBag.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
 <div id="notificacao" class="" style="width=100px;border-radius:10px;">
 </div>
 
-<div style="display:flex; justify-content:center;">
+<div style="display:flex; justify-content:center;" id="buttons">
     @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-warning mx-2 text-light" })
 
-    @Html.ActionLink("Entrar no chat", "Entrar", "Chat", new { area = "", groupId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })
+    @*@Html.ActionLink("Entrar no chat", "Entrar", "Chat", new { area = "", groupId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })*@
 
-    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })
+    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light", @id = "status" })
 </div>
 
 <h3 class="text-center my-5">Histórico de atendimentos</h3>
@@ -36,7 +51,7 @@
                 Cliente
             </th>
             <th>
-                Data
+                Início da conversa
             </th>
             <th>
                 Detalhes
@@ -54,7 +69,7 @@
                     @Html.DisplayFor(modelItem => item.Visitante.Nome)
                 </td>
                 <td>
-                    Dia e hora
+                    @Html.DisplayFor(modelItem => item.dataConversa)
                 </td>
                 <td>
                     @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-warning text-light" })
@@ -70,24 +85,18 @@
     <script src="~/signalr/hubs"></script>
     <script>
         $(function () {
-                $.connection.hub.url = 'https://localhost:44332/signalr';
-                var chat = $.connection.chatHub;
 
-                chat.client.listar = function (msg, conversa) {
-                    $("#notificacao").css("border", "1px solid red");
-                    $("#notificacao").addClass("p-5");
-                    $("#notificacao").addClass("alert");
-                    $("#notificacao").html($("#notificacao").html() + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-                    $("#notificacao").html($("#notificacao").html() + "<h3 class='text-danger'>Consultor @User.Identity.GetName() </h1>");
-                    $("#notificacao").html($("#notificacao").html() + "<p class='text-black'>" + msg + "</p>");
-                    $("#notificacao").html($("#notificacao").html() + "<a href='https://localhost:44332/Chat?IdConversa=" + conversa + "'><button class='btn btn-danger'>Entrar No chat</button></a>");
+            var chat = $.connection.chatHub;
 
-                };
+            chat.client.link = function (link) {
+                $("#notificacao").html("<a href='" + link + "'><div class='alert alert-success'>Um usuário solicitou uma conversa com você pelo chat!</div></a>");
+                $("#buttons").append("<a href='" + link + "' class='btn btn-warning text-light'>Entrar no chat</a>");
+                $("#status").css("display", "none");
+            }
 
-
-                $.connection.hub.start().done(function () {
-                    chat.server.listNotification();
-                });
+            $.connection.hub.start().done(function () {
+                chat.server.addToGroup("@User.Identity.GetUserId()", "@User.Identity.GetName()");
             });
+        });
     </script>
 }

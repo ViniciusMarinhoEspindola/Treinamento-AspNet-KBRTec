@@ -64,9 +64,6 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
             var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.OrderByDescending(s => s.OrdemRegistros).ToList();
             return View(User);
         }
-
-
-
         
         public ActionResult Register()
         {

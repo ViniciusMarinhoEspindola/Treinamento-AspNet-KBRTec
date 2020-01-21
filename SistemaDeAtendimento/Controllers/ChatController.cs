@@ -30,8 +30,12 @@ namespace SistemaDeAtendimento.Controllers
                 var visitante = db.Visitante.Find(TempData["visitanteId"]);
                 ViewBag.Nome = visitante.Nome;
             }
-            //var User = db.AspNetUsers.Where(s => s.Id == TempData["groupId"]).First();
             return View();
+        }
+
+        public void Upload(FileContentResult arq, int path)
+        {
+
         }
 
         public ActionResult Entrar(string groupId, int? visitanteId)
@@ -44,7 +48,7 @@ namespace SistemaDeAtendimento.Controllers
            
             if (verificaConsultor.Equals(0))
             {
-                var conversa = new Conversa { VisitanteId = visitanteId, ConsultorId = groupId };
+                var conversa = new Conversa { VisitanteId = visitanteId, ConsultorId = groupId, dataConversa = DateTime.Now };
                 db.Conversa.Add(conversa);
                 db.SaveChanges();
                 IdConversa = conversa.IdConversa;
@@ -73,10 +77,10 @@ namespace SistemaDeAtendimento.Controllers
             if (!User.IsInRole("Consultor"))
             {
                 //Cadastrar nova Notificação banco
-                var visitante = db.Visitante.Find(visitanteId);
-                var mensagemNotificacao = "O usuário " + visitante.Nome + " solicitou uma conversa no chat.";
-                var notificacao = new Notificacoes { ConsultorId = groupId, ConversaId = visitanteId, MensagemNotificacao = mensagemNotificacao };
-                db.Notificacoes.Add(notificacao);
+                //var visitante = db.Visitante.Find(visitanteId);
+                //var mensagemNotificacao = "O usuário " + visitante.Nome + " solicitou uma conversa no chat.";
+                //var notificacao = new Notificacoes { ConsultorId = groupId, ConversaId = visitanteId, MensagemNotificacao = mensagemNotificacao };
+                //db.Notificacoes.Add(notificacao);
             }
             db.SaveChanges();
             

@@ -67,6 +67,8 @@
           <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
           <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
           <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
+          <ScalarProperty Name="dataConversa" ColumnName="dataConversa" />
+          <ScalarProperty Name="tempoConversa" ColumnName="tempoConversa" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -78,16 +80,6 @@
           <ScalarProperty Name="Remetente" ColumnName="Remetente" />
           <ScalarProperty Name="data" ColumnName="data" />
           <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Notificacoes">
-      <EntityTypeMapping TypeName="SistemaAtendimentoModel.Notificacoes">
-        <MappingFragment StoreEntitySet="Notificacoes">
-          <ScalarProperty Name="IdNotificacao" ColumnName="IdNotificacao" />
-          <ScalarProperty Name="MensagemNotificacao" ColumnName="MensagemNotificacao" />
-          <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
-          <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

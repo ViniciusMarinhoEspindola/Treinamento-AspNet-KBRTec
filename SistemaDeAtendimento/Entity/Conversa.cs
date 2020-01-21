@@ -23,6 +23,8 @@ namespace SistemaDeAtendimento.Entity
         public int IdConversa { get; set; }
         public string ConsultorId { get; set; }
         public Nullable<int> VisitanteId { get; set; }
+        public Nullable<System.DateTime> dataConversa { get; set; }
+        public string tempoConversa { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Visitante Visitante { get; set; }

@@ -13,6 +13,7 @@ namespace SistemaDeAtendimento.Controllers
         public ActionResult Index()
         {
             var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(a => a.Status == "Disponível").OrderByDescending(s => s.OrdemRegistros).ToList();
+            ViewBag.Message = TempData["Message"];
             return View(User);
         }
 
@@ -21,8 +22,10 @@ namespace SistemaDeAtendimento.Controllers
             
             var user = db.AspNetUsers.Find(idConsultor);
             if (user.Status == "Ocupado")
+            {
+                TempData["Message"] = "Desculpe, Mas parece que este consultor acabou de ficar ocupado! Tente novamente com outro consultor.";
                 return RedirectToAction("index", "Home");
-            
+            }
             ViewBag.idConsultor = idConsultor;
             return View();
         }
