@@ -64,6 +64,7 @@
     <EntitySetMapping Name="Conversa">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Conversa">
         <MappingFragment StoreEntitySet="Conversa">
+          <ScalarProperty Name="duracao" ColumnName="duracao" />
           <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
           <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
           <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
@@ -74,6 +75,7 @@
     <EntitySetMapping Name="Mensagens">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Mensagens">
         <MappingFragment StoreEntitySet="Mensagens">
+          <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
           <ScalarProperty Name="IdMensagem" ColumnName="IdMensagem" />
           <ScalarProperty Name="Mensagem" ColumnName="Mensagem" />
           <ScalarProperty Name="Remetente" ColumnName="Remetente" />

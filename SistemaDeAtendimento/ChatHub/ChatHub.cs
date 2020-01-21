@@ -6,6 +6,7 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using SistemaDeAtendimento.Entity;
 using Microsoft.AspNet.Identity;
+using SistemaDeAtendimento.Models;
 
 namespace SistemaDeAtendimento.ChatHub
 {
@@ -31,15 +32,29 @@ namespace SistemaDeAtendimento.ChatHub
             Clients.Group(groupName).digitandoMessage("O usuário " + name + " está digitando.");
         }
 
+        public void ApagarDigite(string groupName)
+        {
+            Clients.Group(groupName).apagarDigitandoMessage();
+        }
+
         public void ChatLink(string groupName, int? idConversa)
         {
             Clients.Group(groupName).link("https://localhost:44332/Chat?IdConversa=" + idConversa);
         }
 
-        public void ApagarDigite(string groupName)
+        public void Upload(string groupId, string name, string filename, int conversa, bool remetente)
         {
-            Clients.Group(groupName).apagarDigitandoMessage();
+            var msg = new Mensagens { Arquivos = "/Chat/Download/?path=" + conversa + "&filename=" + filename, 
+                                        Remetente = remetente, 
+                                        ConversaId = conversa, 
+                                        data = DateTime.Now };
+            db.Mensagens.Add(msg);
+            db.SaveChanges();
+            
+            Clients.Group(groupId).addNewLinkFileToPage(name, filename, conversa);
+            
         }
+
         //public override Task OnDisconnected(bool stopCalled)
         //{
 
@@ -54,19 +69,10 @@ namespace SistemaDeAtendimento.ChatHub
             await Clients.Group(groupName).joinGroup("O usuário " + name + " foi conectado ao chat.");
             
         }
-        public async Task RemoveFromGroup(string groupName)
+        public async Task RemoveFromGroup(string groupName, string name)
         {
             await Groups.Remove(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).leaveGroup();
-        }
-
-        public void ListNotification(int? idConversa, string idConsultor)
-        {
-            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(s => s.Id == idConsultor).Count();
-            if (!User.Equals(0)) {
-                //var notificacao = db.Notificacoes.Where(s => s.ConsultorId == consultorId).OrderByDescending(a => a.IdNotificacao).First();
-                Clients.All.listar("Um usuário solicitou uma conversa no chat.", idConversa);
-            }
+            await Clients.Group(groupName).leaveGroup("O usuário " + name + " foi desconectado do chat.");
         }
     }
 }

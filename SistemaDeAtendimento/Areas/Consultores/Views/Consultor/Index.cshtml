@@ -4,6 +4,16 @@
 
 @{
     ViewBag.Title = "Consultor";
+    ViewBag.Status = Model.First().AspNetUsers.Status == "Ocupado" ? "Ocupado" : "Disponível";
+}
+
+@if (ViewBag.Status == "Disponível")
+{
+    <h5 style="position:absolute; right:35px;" class="text-success">Status: @ViewBag.Status</h5>
+}
+else
+{
+    <h5 style="position:absolute; right:35px;" class="text-danger">Status: @ViewBag.Status</h5>
 }
 
 <h2 class="mb-3 mt-4">Área do Consultor</h2>

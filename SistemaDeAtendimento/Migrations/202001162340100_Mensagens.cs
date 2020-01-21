@@ -25,7 +25,8 @@ namespace SistemaDeAtendimento.Migrations
                     IdConversa = c.Int(nullable: false, identity: true),
                     ConsultorId = c.String(nullable: false, maxLength: 128),
                     VisitanteId = c.Int(nullable: true),
-                    dataConversa = c.DateTime(),
+                    dtConversa = c.DateTime(),
+                    tempoConversa = c.String(),
                 })
                 .PrimaryKey(t => new { t.IdConversa });
 
@@ -40,11 +41,16 @@ namespace SistemaDeAtendimento.Migrations
                     ConversaId = c.Int(),
                 })
                 .PrimaryKey(t => new { t.IdMensagem });
-                
+
+            AddColumn(
+                "dbo.Conversa",
+                "duracao", c => c.Int()
+            );
         }
         
         public override void Down()
         {
+            DropColumn("dbo.Conversa", "duracao");
         }
     }
 }

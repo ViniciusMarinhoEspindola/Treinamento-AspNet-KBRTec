@@ -33,9 +33,37 @@ namespace SistemaDeAtendimento.Controllers
             return View();
         }
 
-        public void Upload(FileContentResult arq, int path)
+        public ActionResult Upload(HttpPostedFileBase arq, string pathUpl)
+        {
+            var file = arq;
+            pathUpl = "Conversa" + pathUpl;
+            string upl = null;
+            if (file != null)
+            {
+                upl = System.IO.Path.GetFileName(file.FileName);
+                System.IO.Directory.CreateDirectory(System.Web.Hosting.HostingEnvironment.MapPath("~/upload/") + pathUpl);
+                string path = System.IO.Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/upload/" + pathUpl), upl);
+                file.SaveAs(path);
+            }
+
+            return Json(upl);
+        }
+
+        public void Download(string path, string filename)
         {
 
+            if (filename != "")
+            {
+                path = Server.MapPath("/upload/Conversa" + path + "/" + filename);
+                System.IO.FileInfo file = new System.IO.FileInfo(path);
+
+                Response.Clear();
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
+                Response.AddHeader("Content-Length", file.Length.ToString());
+                Response.ContentType = "application/octet-stream";
+                Response.WriteFile(file.FullName);
+                Response.End();
+            }
         }
 
         public ActionResult Entrar(string groupId, int? visitanteId)

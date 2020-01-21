@@ -1,0 +1,17 @@
+
+
+
+
+<meta charset="UTF-8">
+<table border='1'>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Tipo de Ingresso</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+        <th>Data do Evento</th>
+        <th>Fase de Planejamento</th>
+    </tr>
+    <tr><td>Fernando Torrez</td><td>Noivo (a)</td><td>namoscaeventos@gmail.com</td><td></td><td>21/11/2018</td><td></td></tr><tr><td>Fernando Torrez</td><td>Noivo (a)</td><td>namoscaeventos@gmail.com</td><td></td><td>21/11/2018</td><td></td></tr><tr><td>Vitória Paola Medeiros</td><td>Noivo (a)</td><td>vitoriamedeiros22@gmail.com</td><td></td><td>11/01/2020</td><td></td></tr><tr><td>Vitória Paola Medeiros</td><td>Noivo (a)</td><td>vitoriamedeiros22@gmail.com</td><td></td><td>11/01/2020</td><td></td></tr><tr><td>Fernando Torrez</td><td>Noivo (a)</td><td>fernandotorrez12@hotmail.com</td><td></td><td>11/11/1111</td><td>Estou no meio da organização da festa, já contratei algumas empresas</td></tr><tr><td>aaaa aaaaaaa</td><td>Debutante</td><td>a@g1.com.br</td><td></td><td>11/11/1111</td><td>Estou bem no início da organização da festa, mas já tenho data definida</td></tr><tr><td>Marcel Moraes</td><td>Profissional de Evento</td><td>Marcel-moraes@hotmail.com</td><td></td><td></td><td></td></tr><tr><td>Daniel Alexandrino</td><td>Noivo (a)</td><td>daniel.alexandrino@kbrtec.com.br</td><td></td><td>26/09/2019</td><td>Estou bem no início da organização da festa, mas já tenho data definida</td></tr><tr><td>lais teste</td><td>Noivo (a)</td><td>financeiro@kbrtec.com.br</td><td></td><td></td><td>Estou bem no início da organização da festa, ainda não tenho nem data e local</td></tr><tr><td>Edelweiss soleda Torrez</td><td>Noivo (a)</td><td>Deltorrez@gmail.com</td><td></td><td></td><td>Estou bem no início da organização da festa, ainda não tenho nem data e local</td></tr><tr><td>Cassia Tamara Fernandes Silvano</td><td>Noivo (a)</td><td>catamaraf@gmail.com</td><td></td><td></td><td>Estou bem no início da organização da festa, ainda não tenho nem data e local</td></tr><tr><td>Marcos Arthur Cavalcante Filho</td><td>Acompanhante</td><td>catamaraf@gmail.com</td><td></td><td></td><td></td></tr><tr><td>Fernando Torrez</td><td>Profissional de Evento</td><td>contato@namoscaeventos.com.br</td><td></td><td></td><td></td></tr><tr><td>Gustavo Galvao</td><td>Noivo (a)</td><td>gustavovg85@yahoo.com.br</td><td>13991531939</td><td></td><td>Estou somente pesquisando</td></tr><tr><td>Tatiana Lopes</td><td>Noivo (a)</td><td>antidope21@hotmail.com</td><td>13997561939</td><td></td><td>Estou bem no início, mas já tenho data definida</td></tr><tr><td>Daniela Hernandes</td><td>Noivo (a)</td><td>Dany.pais@gmail.com</td><td>13988190331</td><td></td><td>Estou bem no início, ainda não tenho data e local</td></tr>
+</table>

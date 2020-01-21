@@ -19,6 +19,7 @@ namespace SistemaDeAtendimento.Entity
         public Nullable<bool> Remetente { get; set; }
         public System.DateTime data { get; set; }
         public int ConversaId { get; set; }
+        public string Arquivos { get; set; }
     
         public virtual Conversa Conversa { get; set; }
     }

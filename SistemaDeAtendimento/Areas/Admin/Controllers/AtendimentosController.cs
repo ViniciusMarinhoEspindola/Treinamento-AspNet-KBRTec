@@ -13,7 +13,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
         // GET: Admin/Atendimentos
         public ActionResult Index(string consultor)
         {
-            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor).Where(s => s.VisitanteId != null).ToList();
+            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor).Where(s => s.VisitanteId != null).OrderByDescending(s => s.IdConversa).ToList();
             return View(Atendimentos);
         }
 

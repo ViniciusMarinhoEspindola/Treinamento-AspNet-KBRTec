@@ -74,6 +74,7 @@
     <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" />
     <Property Name="VisitanteId" Type="int" />
     <Property Name="dtConversa" Type="datetime" />
+    <Property Name="duracao" Type="int" />
   </EntityType>
   <EntityType Name="Mensagens">
     <Key>
@@ -84,6 +85,7 @@
     <Property Name="Remetente" Type="bit" />
     <Property Name="data" Type="datetime" Nullable="false" />
     <Property Name="ConversaId" Type="int" Nullable="false" />
+    <Property Name="Arquivos" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="Visitante">
     <Key>

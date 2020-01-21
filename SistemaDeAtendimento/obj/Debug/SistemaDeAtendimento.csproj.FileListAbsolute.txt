@@ -248,4 +248,4 @@ C:\Users\Vinícius Espíndola\source\repos\SistemaDeAtendimento\SistemaDeAtendim
 C:\Users\Vinícius Espíndola\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.csproj.CopyComplete
 C:\Users\Vinícius Espíndola\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.dll
 C:\Users\Vinícius Espíndola\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.pdb
-C:\Users\Vinícius Espíndola\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.Notificacao.resources
+C:\Users\KBRTEC - 03\source\repos\SistemaDeAtendimento\SistemaDeAtendimento\obj\Debug\SistemaDeAtendimento.Migrations.Files.resources

@@ -56,8 +56,7 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
         public ActionResult Index()
         {
             var consultor = User.Identity.GetUserId();
-            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor.ToString()).Where(s => s.VisitanteId != null).ToList();
-            //var status = db.AspNetUsers.Find(consultor.ToString()).Status;
+            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor.ToString()).Where(s => s.VisitanteId != null).OrderByDescending(s => s.IdConversa).ToList();
             ViewBag.Message = TempData["Message"];
             return View(Atendimentos);
         }
