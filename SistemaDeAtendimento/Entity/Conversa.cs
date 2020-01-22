@@ -24,7 +24,6 @@ namespace SistemaDeAtendimento.Entity
         public string ConsultorId { get; set; }
         public Nullable<int> VisitanteId { get; set; }
         public Nullable<System.DateTime> dtConversa { get; set; }
-        public Nullable<int> duracao { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Visitante Visitante { get; set; }

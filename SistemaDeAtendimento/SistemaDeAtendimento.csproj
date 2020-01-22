@@ -296,6 +296,7 @@
     <Content Include="Content\datatables.extensions\TableTools\images\print_hover.png" />
     <Content Include="Content\datatables.extensions\TableTools\images\xls.png" />
     <Content Include="Content\datatables.extensions\TableTools\images\xls_hover.png" />
+    <Content Include="Content\FlipClock\flipclock.css" />
     <Content Include="Content\images\back_disabled.png" />
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\back_enabled_hover.png" />
@@ -370,6 +371,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\FlipClock\flipclock.min.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />

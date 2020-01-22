@@ -1,11 +1,14 @@
-﻿
-@model SistemaDeAtendimento.Models.ChatViewModel
+﻿@model SistemaDeAtendimento.Entity.Conversa
 @{
     ViewBag.Title = "Chat";
+    ViewBag.Tempo = (Model.Visitante.Duracao * 60);
 }
+<link href="~/Content/FlipClock/flipclock.css" rel="stylesheet" />
+
 <h2 class="text-center mt-3">Chat com o consultor</h2>
 
-<div id="msg"></div>
+<div class="clock" style="margin:2em;"></div>
+
 <div class="container">
     <div class="row">
 
@@ -23,7 +26,8 @@
                     {
                         <!-- Botão carregar arquivo -->
                         <label id="fileLabel" style="height:40px; max-width:50px" class="btn btn-info col-1 py-2 mx-3" for="upload"><i class="fas fa-file-upload"></i></label>
-                        @Html.TextBoxFor(m => m.Arq, new { @class = "form-control", type = "file", @id = "upload", @style = "display:none;" })
+                        @*@Html.TextBoxFor(m => m.Arq, new { @class = "form-control", type = "file", @id = "upload", @style = "display:none;" })*@
+                        <input type="file" name="Arq" id="upload" style="display:none;" />
                         <input type="hidden" name="pathUpl" id="pathUpl" />
                         @*<input type="file" class="col-1 btn btn-warning" id="upload" style="display:none;" />*@
                     }
@@ -39,6 +43,7 @@
     </div>
 </div>
 @section scripts {
+    <script src="~/Scripts/FlipClock/flipclock.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
@@ -49,8 +54,8 @@
         $(function () {
             var chat = $.connection.chatHub;
 
-            $("#pathUpl").val("@ViewBag.IdConversa")
-            
+            $("#pathUpl").val("@Model.IdConversa")
+
 
             chat.client.addNewMessageToPage = function (name, message) {
                 $('#discussion').append('<p><strong>' + name + '</strong>: ' + htmlEncode(message) + '</p>');
@@ -64,6 +69,31 @@
                 $('#discussion').append('<p class="text-muted">' + name + '</p>');
             };
 
+            chat.client.leaveGroup = function (name) {
+                $('#discussion').append('<p class="text-muted">' + name + '</p>');
+            };
+
+            chat.client.countTimer = function (atual, tempo) {
+                $(".clock").html(atual);
+                let url = window.location.href.split("Chat");
+                console.log(url[0])
+                if (tempo > 0) {
+                    if (!@ViewBag.Consultor) {
+                        tempo = tempo - 1;
+                        var repetir = setTimeout(function () { chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Consultor, tempo); }, 1000);
+                    }
+                } else {
+                    chat.server.removeFromGroup("@Model.AspNetUsers.Id", $('#displayname').val());
+                    let url = window.location.href.split("Chat");
+                    console.log(url[0])
+                    if (!@ViewBag.Consultor) {
+                        window.location.href = url[0];
+                    } else {
+                        window.location.href = url[0] + "Consultores";
+                    }
+                }
+            }
+
             chat.client.digitandoMessage = function (name) {
                 $('#digitando').html('<p class="text-muted">' + name + '</p>');
             };
@@ -72,24 +102,23 @@
                 $('#digitando').html("");
             };
 
-             chat.client.listar = function (msg) {
-                $('#msg').html('<p class="text-muted">' + msg + '</p>');
-            };
-
-
-            $('#displayname').val("@ViewBag.Nome");
-
+            if (@ViewBag.Consultor) {
+                $('#displayname').val("@Model.AspNetUsers.Nome");
+            } else {
+                $('#displayname').val("@Model.Visitante.Nome");
+            }
             $('#message').focus();
 
             $.connection.hub.start().done(function () {
-                chat.server.addToGroup("@ViewBag.GroupId", $('#displayname').val());
+                chat.server.addToGroup("@Model.AspNetUsers.Id", $('#displayname').val());
 
-                chat.server.chatLink("@ViewBag.GroupId", @ViewBag.IdConversa);
+                if (!@ViewBag.Consultor) {
+                    chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Consultor, @ViewBag.Tempo);
+                }
+                chat.server.chatLink("@Model.AspNetUsers.Id", @Model.IdConversa);
 
                 $('#sendmessage').click(function () {
                     if ($("#upload").val() !== "") {
-                        @*chat.server.upload(arq, "@ViewBag.GroupId", "@ViewBag.IdConversa")*@
-
                         var formData = new FormData($('#form')[0]);
                         $.ajax({
                             url : '/Chat/Upload',
@@ -101,24 +130,24 @@
                             success: function(data){
                                 console.log(data);
 
-                                chat.server.upload("@ViewBag.GroupId", $('#displayname').val(), data, @ViewBag.IdConversa, @ViewBag.Consultor)
+                                chat.server.upload("@Model.AspNetUsers.Id", $('#displayname').val(), data, @Model.IdConversa, @ViewBag.Consultor)
                             },
                         });
                         $("#upload").val("");
                         $("#fileLabel").html("<i class='fas fa-file-upload'></i>");
                     }
                     if ($('#message').val() !== "") {
-                        chat.server.send($('#displayname').val(), $('#message').val(), "@ViewBag.GroupId", @ViewBag.Consultor, @ViewBag.IdConversa);
+                        chat.server.send($('#displayname').val(), $('#message').val(), "@Model.AspNetUsers.Id", @ViewBag.Consultor, @Model.IdConversa);
                     }
                     $('#message').val('').focus();
                 });
 
                 $('#message').keypress(function () {
-                   chat.server.digite("@ViewBag.GroupId", $('#displayname').val());
+                   chat.server.digite("@Model.AspNetUsers.Id", $('#displayname').val());
                 });
 
                 $('#message').blur(function () {
-                     chat.server.apagarDigite("@ViewBag.GroupId");
+                     chat.server.apagarDigite("@Model.AspNetUsers.Id");
                 });
             });
         });

@@ -76,10 +76,9 @@
             <PropertyRef Name="IdConversa" />
           </Key>
           <Property Name="IdConversa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" />
+          <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="VisitanteId" Type="int" />
           <Property Name="dtConversa" Type="datetime" />
-          <Property Name="duracao" Type="int" />
         </EntityType>
         <EntityType Name="Mensagens">
           <Key>
@@ -88,21 +87,24 @@
           <Property Name="IdMensagem" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Mensagem" Type="nvarchar(max)" />
           <Property Name="Remetente" Type="bit" />
-          <Property Name="data" Type="datetime" Nullable="false" />
-          <Property Name="ConversaId" Type="int" Nullable="false" />
-          <Property Name="Arquivos" Type="varchar" MaxLength="255" />
+          <Property Name="data" Type="datetime" />
+          <Property Name="ConversaId" Type="int" />
+          <Property Name="Arquivos" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Visitante">
           <Key>
             <PropertyRef Name="IdVisitante" />
           </Key>
           <Property Name="IdVisitante" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nome" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="Celular" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nome" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Celular" Type="nvarchar(max)" />
+          <Property Name="Duracao" Type="int" />
         </EntityType>
         <Association Name="FK_Conversa_Consultor">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Conversa" Type="Self.Conversa" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
@@ -114,7 +116,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Conversa_Visitante">
-          <End Role="Visitante" Type="Self.Visitante" Multiplicity="0..1" />
+          <End Role="Visitante" Type="Self.Visitante" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Conversa" Type="Self.Conversa" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Visitante">
@@ -181,8 +185,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Mensagens_Conversa">
-          <End Role="Conversa" Type="Self.Conversa" Multiplicity="1" />
+        <Association Name="FK_Mensagem_Conversa">
+          <End Role="Conversa" Type="Self.Conversa" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Mensagens" Type="Self.Mensagens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Conversa">
@@ -227,7 +233,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Mensagens_Conversa" Association="Self.FK_Mensagens_Conversa">
+          <AssociationSet Name="FK_Mensagem_Conversa" Association="Self.FK_Mensagem_Conversa">
             <End Role="Conversa" EntitySet="Conversa" />
             <End Role="Mensagens" EntitySet="Mensagens" />
           </AssociationSet>
@@ -306,13 +312,12 @@
             <PropertyRef Name="IdConversa" />
           </Key>
           <Property Name="IdConversa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ConsultorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ConsultorId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="VisitanteId" Type="Int32" />
           <Property Name="dtConversa" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Conversa_Consultor" FromRole="Conversa" ToRole="AspNetUsers" />
           <NavigationProperty Name="Visitante" Relationship="Self.FK_Conversa_Visitante" FromRole="Conversa" ToRole="Visitante" />
-          <NavigationProperty Name="Mensagens" Relationship="Self.FK_Mensagens_Conversa" FromRole="Conversa" ToRole="Mensagens" />
-          <Property Name="duracao" Type="Int32" />
+          <NavigationProperty Name="Mensagens" Relationship="Self.FK_Mensagem_Conversa" FromRole="Conversa" ToRole="Mensagens" />
         </EntityType>
         <EntityType Name="Mensagens">
           <Key>
@@ -321,20 +326,21 @@
           <Property Name="IdMensagem" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Mensagem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remetente" Type="Boolean" />
-          <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ConversaId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagens_Conversa" FromRole="Mensagens" ToRole="Conversa" />
-          <Property Name="Arquivos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="data" Type="DateTime" Precision="3" />
+          <Property Name="ConversaId" Type="Int32" />
+          <Property Name="Arquivos" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagem_Conversa" FromRole="Mensagens" ToRole="Conversa" />
         </EntityType>
         <EntityType Name="Visitante">
           <Key>
             <PropertyRef Name="IdVisitante" />
           </Key>
           <Property Name="IdVisitante" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nome" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Celular" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Conversa" Relationship="Self.FK_Conversa_Visitante" FromRole="Visitante" ToRole="Conversa" />
+          <Property Name="Duracao" Type="Int32" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -365,7 +371,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Conversa_Consultor">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Conversa" Type="Self.Conversa" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
@@ -377,7 +385,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Conversa_Visitante">
-          <End Role="Visitante" Type="Self.Visitante" Multiplicity="0..1" />
+          <End Role="Visitante" Type="Self.Visitante" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Conversa" Type="Self.Conversa" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Visitante">
@@ -388,8 +398,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Mensagens_Conversa">
-          <End Role="Conversa" Type="Self.Conversa" Multiplicity="1" />
+        <Association Name="FK_Mensagem_Conversa">
+          <End Role="Conversa" Type="Self.Conversa" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Mensagens" Type="Self.Mensagens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Conversa">
@@ -429,7 +441,7 @@
             <End Role="Visitante" EntitySet="Visitante" />
             <End Role="Conversa" EntitySet="Conversa" />
           </AssociationSet>
-          <AssociationSet Name="FK_Mensagens_Conversa" Association="Self.FK_Mensagens_Conversa">
+          <AssociationSet Name="FK_Mensagem_Conversa" Association="Self.FK_Mensagem_Conversa">
             <End Role="Conversa" EntitySet="Conversa" />
             <End Role="Mensagens" EntitySet="Mensagens" />
           </AssociationSet>
@@ -507,7 +519,6 @@
           <EntitySetMapping Name="Conversa">
             <EntityTypeMapping TypeName="SistemaAtendimentoModel.Conversa">
               <MappingFragment StoreEntitySet="Conversa">
-                <ScalarProperty Name="duracao" ColumnName="duracao" />
                 <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
                 <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
                 <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
@@ -518,18 +529,19 @@
           <EntitySetMapping Name="Mensagens">
             <EntityTypeMapping TypeName="SistemaAtendimentoModel.Mensagens">
               <MappingFragment StoreEntitySet="Mensagens">
-                <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
                 <ScalarProperty Name="IdMensagem" ColumnName="IdMensagem" />
                 <ScalarProperty Name="Mensagem" ColumnName="Mensagem" />
                 <ScalarProperty Name="Remetente" ColumnName="Remetente" />
                 <ScalarProperty Name="data" ColumnName="data" />
                 <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
+                <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Visitante">
             <EntityTypeMapping TypeName="SistemaAtendimentoModel.Visitante">
               <MappingFragment StoreEntitySet="Visitante">
+                <ScalarProperty Name="Duracao" ColumnName="Duracao" />
                 <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

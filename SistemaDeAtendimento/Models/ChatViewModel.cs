@@ -8,8 +8,7 @@ namespace SistemaDeAtendimento.Models
 {
     public class ChatViewModel
     {
-        [DataType(DataType.Upload)]
-        [Display(Name = "Arquivo de Upload")]
-        public HttpPostedFileBase Arq { get; set; }
+        [Display(Name = "Tempo")]
+        public int tempo { get; set; }
     }
 }

@@ -27,6 +27,15 @@ namespace SistemaDeAtendimento.ChatHub
                 Clients.Group("Todos").addNewMessageToPage(name, message);
             }
         }
+
+        public void Timer(string groupName, int tempo)
+        {
+            TimeSpan result = TimeSpan.FromSeconds(tempo);
+            string tempoFinal = result.ToString("hh':'mm':'ss");
+
+            Clients.Group(groupName).countTimer(tempoFinal, tempo);
+        }
+
         public void Digite(string groupName, string name)
         {
             Clients.Group(groupName).digitandoMessage("O usuário " + name + " está digitando.");

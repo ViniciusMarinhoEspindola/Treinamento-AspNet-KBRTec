@@ -32,7 +32,7 @@ namespace SistemaDeAtendimento.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Visitante(string groupId, [Bind(Include = "Nome,Email,Celular")] Visitante visitante)
+        public ActionResult Visitante(string groupId, [Bind(Include = "Nome,Email,Celular,Duracao")] Visitante visitante)
         {
             if (ModelState.IsValid)
             {

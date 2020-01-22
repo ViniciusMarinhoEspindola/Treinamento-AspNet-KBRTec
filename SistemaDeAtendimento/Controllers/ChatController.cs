@@ -16,21 +16,16 @@ namespace SistemaDeAtendimento.Controllers
         // GET: Chat
         public ActionResult Index(int IdConversa)
         {
-            ViewBag.IdConversa = IdConversa;
+            var conversa = db.Conversa.Find(IdConversa);
             if (User.IsInRole("Consultor"))
             {
                 ViewBag.Consultor = 1;
-                ViewBag.GroupId = User.Identity.GetUserId();
-                ViewBag.Nome = User.Identity.GetName();
             }
             else
             {
                 ViewBag.Consultor = 0;
-                ViewBag.GroupId = TempData["groupId"];
-                var visitante = db.Visitante.Find(TempData["visitanteId"]);
-                ViewBag.Nome = visitante.Nome;
             }
-            return View();
+            return View(conversa);
         }
 
         public ActionResult Upload(HttpPostedFileBase arq, string pathUpl)
@@ -71,8 +66,6 @@ namespace SistemaDeAtendimento.Controllers
             //
             var verificaConsultor = db.Conversa.Where(s => s.ConsultorId == groupId).Where(a => a.VisitanteId == null).Count();
             var IdConversa = 0;
-
-            TempData["groupId"] = groupId;
            
             if (verificaConsultor.Equals(0))
             {
@@ -80,17 +73,14 @@ namespace SistemaDeAtendimento.Controllers
                 db.Conversa.Add(conversa);
                 db.SaveChanges();
                 IdConversa = conversa.IdConversa;
-
-
             } else
             {
                 var conversa = db.Conversa.Where(s => s.ConsultorId == groupId).Where(s => s.VisitanteId == null).OrderByDescending(a => a.IdConversa).First();
                 var torcaStatus = db.AspNetUsers.Find(groupId);
 
                 if (User.IsInRole("Consultor"))
-                {
-                    TempData["visitanteId"] = 0;                    
-                    torcaStatus.Status = "Disponível";
+                {                 
+                    torcaStatus.Status = "Ocupado";
                     db.SaveChanges();
                     return RedirectToAction("index", "Chat", new { IdConversa = conversa.IdConversa });
                 }
@@ -101,15 +91,7 @@ namespace SistemaDeAtendimento.Controllers
                 torcaStatus.Status = "Ocupado";
                 
             }
-            TempData["visitanteId"] = visitanteId;
-            if (!User.IsInRole("Consultor"))
-            {
-                //Cadastrar nova Notificação banco
-                //var visitante = db.Visitante.Find(visitanteId);
-                //var mensagemNotificacao = "O usuário " + visitante.Nome + " solicitou uma conversa no chat.";
-                //var notificacao = new Notificacoes { ConsultorId = groupId, ConversaId = visitanteId, MensagemNotificacao = mensagemNotificacao };
-                //db.Notificacoes.Add(notificacao);
-            }
+
             db.SaveChanges();
             
             return RedirectToAction("index", "Chat", new { IdConversa = IdConversa });

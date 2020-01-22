@@ -64,7 +64,6 @@
     <EntitySetMapping Name="Conversa">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Conversa">
         <MappingFragment StoreEntitySet="Conversa">
-          <ScalarProperty Name="duracao" ColumnName="duracao" />
           <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
           <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
           <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
@@ -75,18 +74,19 @@
     <EntitySetMapping Name="Mensagens">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Mensagens">
         <MappingFragment StoreEntitySet="Mensagens">
-          <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
           <ScalarProperty Name="IdMensagem" ColumnName="IdMensagem" />
           <ScalarProperty Name="Mensagem" ColumnName="Mensagem" />
           <ScalarProperty Name="Remetente" ColumnName="Remetente" />
           <ScalarProperty Name="data" ColumnName="data" />
           <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
+          <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Visitante">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Visitante">
         <MappingFragment StoreEntitySet="Visitante">
+          <ScalarProperty Name="Duracao" ColumnName="Duracao" />
           <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Email" ColumnName="Email" />
