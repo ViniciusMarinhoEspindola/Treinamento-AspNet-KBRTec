@@ -74,7 +74,6 @@
     <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" />
     <Property Name="VisitanteId" Type="int" />
     <Property Name="dtConversa" Type="datetime" />
-    <Property Name="duracao" Type="int" />
   </EntityType>
   <EntityType Name="Mensagens">
     <Key>
@@ -95,6 +94,7 @@
     <Property Name="Nome" Type="nvarchar" MaxLength="50" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
     <Property Name="Celular" Type="nvarchar" MaxLength="50" />
+    <Property Name="Duracao" Type="int" />
   </EntityType>
   <Association Name="FK_Conversa_Consultor">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />

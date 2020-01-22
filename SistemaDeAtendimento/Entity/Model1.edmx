@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SistemaAtendimentoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SistemaAtendimentoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -79,7 +79,6 @@
           <Property Name="ConsultorId" Type="nvarchar" MaxLength="128" />
           <Property Name="VisitanteId" Type="int" />
           <Property Name="dtConversa" Type="datetime" />
-          <Property Name="duracao" Type="int" />
         </EntityType>
         <EntityType Name="Mensagens">
           <Key>
@@ -100,6 +99,7 @@
           <Property Name="Nome" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Celular" Type="nvarchar" MaxLength="50" />
+          <Property Name="Duracao" Type="int" />
         </EntityType>
         <Association Name="FK_Conversa_Consultor">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
@@ -232,7 +232,8 @@
             <End Role="Mensagens" EntitySet="Mensagens" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SistemaAtendimentoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -312,7 +313,6 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Conversa_Consultor" FromRole="Conversa" ToRole="AspNetUsers" />
           <NavigationProperty Name="Visitante" Relationship="Self.FK_Conversa_Visitante" FromRole="Conversa" ToRole="Visitante" />
           <NavigationProperty Name="Mensagens" Relationship="Self.FK_Mensagens_Conversa" FromRole="Conversa" ToRole="Mensagens" />
-          <Property Name="duracao" Type="Int32" />
         </EntityType>
         <EntityType Name="Mensagens">
           <Key>
@@ -323,8 +323,8 @@
           <Property Name="Remetente" Type="Boolean" />
           <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ConversaId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagens_Conversa" FromRole="Mensagens" ToRole="Conversa" />
           <Property Name="Arquivos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagens_Conversa" FromRole="Mensagens" ToRole="Conversa" />
         </EntityType>
         <EntityType Name="Visitante">
           <Key>
@@ -334,6 +334,7 @@
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Duracao" Type="Int32" />
           <NavigationProperty Name="Conversa" Relationship="Self.FK_Conversa_Visitante" FromRole="Visitante" ToRole="Conversa" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -507,7 +508,6 @@
           <EntitySetMapping Name="Conversa">
             <EntityTypeMapping TypeName="SistemaAtendimentoModel.Conversa">
               <MappingFragment StoreEntitySet="Conversa">
-                <ScalarProperty Name="duracao" ColumnName="duracao" />
                 <ScalarProperty Name="IdConversa" ColumnName="IdConversa" />
                 <ScalarProperty Name="ConsultorId" ColumnName="ConsultorId" />
                 <ScalarProperty Name="VisitanteId" ColumnName="VisitanteId" />
@@ -518,12 +518,12 @@
           <EntitySetMapping Name="Mensagens">
             <EntityTypeMapping TypeName="SistemaAtendimentoModel.Mensagens">
               <MappingFragment StoreEntitySet="Mensagens">
-                <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
                 <ScalarProperty Name="IdMensagem" ColumnName="IdMensagem" />
                 <ScalarProperty Name="Mensagem" ColumnName="Mensagem" />
                 <ScalarProperty Name="Remetente" ColumnName="Remetente" />
                 <ScalarProperty Name="data" ColumnName="data" />
                 <ScalarProperty Name="ConversaId" ColumnName="ConversaId" />
+                <ScalarProperty Name="Arquivos" ColumnName="Arquivos" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -534,6 +534,7 @@
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Duracao" ColumnName="Duracao" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

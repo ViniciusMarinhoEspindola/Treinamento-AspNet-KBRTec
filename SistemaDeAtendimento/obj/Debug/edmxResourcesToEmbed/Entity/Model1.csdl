@@ -76,7 +76,6 @@
     <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Conversa_Consultor" FromRole="Conversa" ToRole="AspNetUsers" />
     <NavigationProperty Name="Visitante" Relationship="Self.FK_Conversa_Visitante" FromRole="Conversa" ToRole="Visitante" />
     <NavigationProperty Name="Mensagens" Relationship="Self.FK_Mensagens_Conversa" FromRole="Conversa" ToRole="Mensagens" />
-    <Property Name="duracao" Type="Int32" />
   </EntityType>
   <EntityType Name="Mensagens">
     <Key>
@@ -87,8 +86,8 @@
     <Property Name="Remetente" Type="Boolean" />
     <Property Name="data" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ConversaId" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagens_Conversa" FromRole="Mensagens" ToRole="Conversa" />
     <Property Name="Arquivos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Conversa" Relationship="Self.FK_Mensagens_Conversa" FromRole="Mensagens" ToRole="Conversa" />
   </EntityType>
   <EntityType Name="Visitante">
     <Key>
@@ -98,6 +97,7 @@
     <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Duracao" Type="Int32" />
     <NavigationProperty Name="Conversa" Relationship="Self.FK_Conversa_Visitante" FromRole="Visitante" ToRole="Conversa" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">

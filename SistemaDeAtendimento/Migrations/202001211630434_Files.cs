@@ -8,6 +8,11 @@ namespace SistemaDeAtendimento.Migrations
         public override void Up()
         {
             AddColumn(
+                "dbo.Visitante",
+                "Duracao", c => c.Int()
+            );
+
+            AddColumn(
                 "dbo.Mensagens",
                 "Arquivos", c => c.String()
             );
@@ -15,6 +20,8 @@ namespace SistemaDeAtendimento.Migrations
         
         public override void Down()
         {
+            DropColumn("dbo.Conversa", "duracao");
+            DropColumn("dbo.Mensagens", "Arquivos");
         }
     }
 }

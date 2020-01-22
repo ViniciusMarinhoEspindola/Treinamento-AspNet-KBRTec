@@ -13,6 +13,7 @@ namespace SistemaDeAtendimento.ChatHub
     public class ChatHub : Hub
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
+        private List<ChatViewModel> modelChat = new List<ChatViewModel>();
         public void Send(string name, string message, string group, bool remetente, int IdConversa)
         {
             try
@@ -27,6 +28,16 @@ namespace SistemaDeAtendimento.ChatHub
                 Clients.Group("Todos").addNewMessageToPage(name, message);
             }
         }
+
+        public void Timer(string groupName, int tempo)
+        {
+            TimeSpan result = TimeSpan.FromSeconds(tempo);
+            string tempoFinal = result.ToString("mm':'ss");
+            var variavel = modelChat.FirstOrDefault(x => x.consultor == groupName);
+            variavel.Duracao = tempo;
+            Clients.Group(groupName).countTimer(tempoFinal, tempo);
+        }
+
         public void Digite(string groupName, string name)
         {
             Clients.Group(groupName).digitandoMessage("O usuário " + name + " está digitando.");
@@ -39,7 +50,7 @@ namespace SistemaDeAtendimento.ChatHub
 
         public void ChatLink(string groupName, int? idConversa)
         {
-            Clients.Group(groupName).link("https://localhost:44332/Chat?IdConversa=" + idConversa);
+            Clients.Group(groupName).link("https://localhost:44332/Chat/index/" + idConversa);
         }
 
         public void Upload(string groupId, string name, string filename, int conversa, bool remetente)
