@@ -57,7 +57,9 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
         {
             var consultor = User.Identity.GetUserId();
             var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor.ToString()).Where(s => s.VisitanteId != null).OrderByDescending(s => s.IdConversa).ToList();
+            var status = db.AspNetUsers.Find(consultor.ToString()).Status;
             ViewBag.Message = TempData["Message"];
+            ViewBag.Status = status;
             return View(Atendimentos);
         }
 
@@ -99,13 +101,14 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
             AddErrors(result);
             return View(model);
         }
-
+        [HttpPost]
         public ActionResult ChangeStatus(string UserId)
         {
             var user = db.AspNetUsers.Find(UserId);
             var TrocaStatus = user.Status == "Ocupado" ? user.Status = "Disponível" : user.Status = "Ocupado";
             db.SaveChanges();
-            return RedirectToAction("Index");
+            
+            return Json(user.Status);
         }
 
         private void AddErrors(IdentityResult result)

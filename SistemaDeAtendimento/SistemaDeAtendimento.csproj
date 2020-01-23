@@ -232,6 +232,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ChatHub\ChatHub.cs" />
+    <Compile Include="Helpers\Cookies.cs" />
     <Compile Include="Migrations\202001161236294_Status.cs" />
     <Compile Include="Migrations\202001161236294_Status.Designer.cs">
       <DependentUpon>202001161236294_Status.cs</DependentUpon>
@@ -259,6 +260,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ChatStyle.css" />
     <Content Include="Content\css\jquery.dataTables.css" />
     <Content Include="Content\css\jquery.dataTables.min.css" />
     <Content Include="Content\css\jquery.dataTables_themeroller.css" />
@@ -336,6 +338,25 @@
     <Content Include="Areas\Consultores\Views\Consultor\Index.cshtml" />
     <Content Include="Areas\Consultores\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Consultores\Register.cshtml" />
+    <Content Include="images\093d33ef-11ba-4714-a3c3-381e87688982javascript.jpg" />
+    <Content Include="images\1cbd5c9b-13b9-439d-a250-655e7074c92aExemplo.png" />
+    <Content Include="images\2a368106-be9e-4c05-b583-96796c40265aimages %282%29.jpg" />
+    <Content Include="images\42eac84d-f15e-4180-b18b-e3d8297c2d8cimages %281%29.jpg" />
+    <Content Include="images\45baaa16-4d4f-4384-b832-604bc515fd59images.jpg" />
+    <Content Include="images\4d3e3d76-4a1c-48e5-8986-08866c480426images.jpg" />
+    <Content Include="images\5066863f-a111-4050-abd0-7a9b91db8ae8javascript.jpg" />
+    <Content Include="images\529f9494-797c-476b-92e1-0a27c9b2dadbjavascript.jpg" />
+    <Content Include="images\619c846e-9840-4613-8d34-95482c060594download - Copia.png" />
+    <Content Include="images\796e50a3-60b6-412f-9e8e-b0a5d9b4c798images %282%29.jpg" />
+    <Content Include="images\8b282011-36f7-45bd-9c98-da9a92a68ba9download.png" />
+    <Content Include="images\9550dd2e-39cf-4ac7-a6df-638d3e18f91cExemplo.png" />
+    <Content Include="images\aaad38ba-aa60-4616-9b45-6ab70f91ba89user.jpg" />
+    <Content Include="images\c5deda83-91f6-4c0b-bb06-b8e556733b3auser.jpg" />
+    <Content Include="images\c7654cd2-ec5d-45a7-a53b-8d17da606dffjavascript.jpg" />
+    <Content Include="images\cd79d5c8-8d07-4a50-9512-162d9d097cdbimages.jpg" />
+    <Content Include="images\e4065fea-e1c3-4845-bb60-307ce00a1527images %281%29.jpg" />
+    <Content Include="images\f0e42401-2a13-46a8-ac5f-63f3c26510b2images %281%29.jpg" />
+    <Content Include="images\Usuario\user.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -540,7 +561,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
     <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>

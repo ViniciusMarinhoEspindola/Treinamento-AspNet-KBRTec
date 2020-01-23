@@ -1,11 +1,12 @@
-﻿@model IEnumerable<SistemaDeAtendimento.Entity.AspNetUsers>
+﻿
 @using SistemaDeAtendimento.App_Start
 @{
     ViewBag.Title = "Home Page";
 }
 
-<h2 class="text-center my-5 text-danger">Escolha o consultor com quem deseja falar</h2>
-
+<h2 class="text-center my-5 text-danger" style="font-family:'Palatino Linotype'; font-size:45px;">Escolha o consultor com quem deseja falar</h2>
+<hr class="my-5 bg-danger" />
+<h3 class="text-muted mb-5">Consultores disponíveis:</h3>
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
     <div class="alert alert-danger">
@@ -22,50 +23,49 @@
     </div>
 }
 
-<div class="row">    
-    @foreach (var item in Model)
-    {
-        <div class="card col-3">
-            <img style="max-height:190px" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
-            <div class="card-body">
-                <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Nome)</h5>
-                <p class="card-text">@Html.DisplayFor(modelItem => item.Descricao)</p>
-                <p class="text-muted">@Html.DisplayFor(modelItem => item.Email)</p>
-
-                <div class="" style="bottom:0px; position:relative">
-                    
-                    @Html.ActionLink("Falar com o consultor", "Visitante", "Home", new { idConsultor = item.Id }, new { @class = "btn btn-danger" })
-                </div>
-            </div>
-        </div>
-    }
-
+<div class="row" id="content">
 </div>
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
-    @*@if (User.IsInRole("Consultor"))
-        {
-            <script>
-            $(function () {
-                var chat = $.connection.chatHub;
 
-                chat.client.listar = function (msg, conversa) {
-                    $("#notificacao").css("border", "1px solid red");
-                    $("#notificacao").addClass("p-5");
-                    $("#notificacao").addClass("alert");
-                    $("#notificacao").html($("#notificacao").html() + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-                    $("#notificacao").html($("#notificacao").html() + "<h3 class='text-danger'>Consultor @User.Identity.GetName() </h1>");
-                    $("#notificacao").html($("#notificacao").html() + "<p class='text-black'>" + msg + "</p>");
-                    $("#notificacao").html($("#notificacao").html() + "<a href='https://localhost:44332/Chat?IdConversa=" + conversa + "'><button class='btn btn-danger'>Entrar No chat</button></a>");
+    <script>
+        $(function () {
+            var chat = $.connection.chatHub;
+            chat.client.limpaLista = function () {
+                $("#content").html("");
+            }
 
-                };
+            chat.client.listarConsul = function (bool, foto, nome, descricao, email, id) {
+                var content = "";
+                if (!bool) {
+                    content += '<div style="width: 100%;font-family:\'Palatino Linotype\';"><h4 class="text-muted text-center mt-5">Nenhum consultor disponível no momento!</h4></div>';
+                } else {
+                    var url = window.location.href.split("Home");
+                    content += '<div class="card col-3">'
+                    content += '<div class="card-deck">'
+                    content += '<img class="card-img" src="' + url[0] + 'images/' + foto + '">'
+                    content += '</div>'
+                    content += '<div class="card-body">'
+                    content += '<h5 class="text-center card-title text-danger">' + nome + '</h5>'
+                    content += '<p class="card-text text-justify">' + descricao + '</p>'
+                    content += '<p class="text-muted text-center">' + email + '</p>'
+
+                    content += '</div>'
+
+                    content += '<div class="card-footer card-deck" style="display:flex;justify-content:center; bottom:0px; position:relative">'
+                    content += '<a href="/Home/Visitante/?idConsultor=' + id + '" class="btn btn-danger">Falar com o consultor</a>'
+                    content += '</div>'
+                    content += '</div>'
+                }
+                $("#content").append(content);
+            };
 
 
-                $.connection.hub.start().done(function () {
-                    chat.server.listNotification();
-                });
+            $.connection.hub.start().done(function () {
+                chat.server.listConsultores();
             });
-            </script>
-        }*@
+        });
+    </script>
+
 }

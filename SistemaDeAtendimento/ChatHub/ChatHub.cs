@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using SistemaDeAtendimento.Entity;
 using Microsoft.AspNet.Identity;
 using SistemaDeAtendimento.Models;
+using SistemaDeAtendimento.Helpers;
 
 namespace SistemaDeAtendimento.ChatHub
 {
@@ -14,6 +16,24 @@ namespace SistemaDeAtendimento.ChatHub
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         private List<ChatViewModel> modelChat = new List<ChatViewModel>();
+
+        public void ListConsultores()
+        {
+            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(a => a.Status == "Disponível").OrderByDescending(s => s.OrdemRegistros).ToList();
+            Clients.All.limpaLista();
+            if (User.Count() <= 0)
+            {
+                Clients.All.listarConsul(false);
+            }
+            else
+            {
+                foreach (var item in User)
+                {
+                    Clients.All.listarConsul(true, item.Foto, item.Nome, item.Descricao, item.Email, item.Id);
+                }
+            }
+        }
+
         public void Send(string name, string message, string group, bool remetente, int IdConversa)
         {
             try
@@ -22,7 +42,13 @@ namespace SistemaDeAtendimento.ChatHub
                 db.Mensagens.Add(msg);
                 db.SaveChanges();
 
-                Clients.Group(group).addNewMessageToPage(name, message);
+                if (remetente)
+                {
+                    Clients.Group(group).addNewMessageToPageConsultor(name, message);
+                } else
+                {
+                    Clients.Group(group).addNewMessageToPageVisitante(name, message);
+                }
             } catch
             {
                 Clients.Group("Todos").addNewMessageToPage(name, message);
@@ -33,8 +59,12 @@ namespace SistemaDeAtendimento.ChatHub
         {
             TimeSpan result = TimeSpan.FromSeconds(tempo);
             string tempoFinal = result.ToString("mm':'ss");
-            var variavel = modelChat.FirstOrDefault(x => x.consultor == groupName);
-            variavel.Duracao = tempo;
+//<<<<<<< HEAD
+//            //Cookies.Set("Tempo", tempo.ToString());
+//=======
+            //var variavel = modelChat.FirstOrDefault(x => x.consultor == groupName);
+            //variavel.Duracao = tempo;
+
             Clients.Group(groupName).countTimer(tempoFinal, tempo);
         }
 
@@ -47,7 +77,7 @@ namespace SistemaDeAtendimento.ChatHub
         {
             Clients.Group(groupName).apagarDigitandoMessage();
         }
-
+        
         public void ChatLink(string groupName, int? idConversa)
         {
             Clients.Group(groupName).link("https://localhost:44332/Chat/index/" + idConversa);
@@ -61,8 +91,14 @@ namespace SistemaDeAtendimento.ChatHub
                                         data = DateTime.Now };
             db.Mensagens.Add(msg);
             db.SaveChanges();
-            
-            Clients.Group(groupId).addNewLinkFileToPage(name, filename, conversa);
+
+            if (remetente)
+            {
+                Clients.Group(groupId).addNewLinkFileToPageConsultor(name, filename, conversa);
+            } else
+            {
+                Clients.Group(groupId).addNewLinkFileToPageVisitante(name, filename, conversa);
+            }
             
         }
 

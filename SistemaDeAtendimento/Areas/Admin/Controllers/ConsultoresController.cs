@@ -85,6 +85,13 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                 string foto = null;
                 if (file != null)
                 {
+                    var ext = System.IO.Path.GetExtension(file.FileName);
+                    string[] extPermitidas = { ".png", ".jpg", ".jpeg", ".gif" };
+                    if(!extPermitidas.Contains(ext))
+                    {
+                        TempData["Message"] = "A extensão " + ext + " não é um tipo de extensão válida!";
+                        return RedirectToAction("Index");
+                    }
                     foto = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(file.FileName);
                     string path = System.IO.Path.Combine(Server.MapPath("~/images"), foto);
                     file.SaveAs(path);
@@ -182,6 +189,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                 
                 db.SaveChanges();
                 TempData["Message"] = "Editado com sucesso!";
+
                 return RedirectToAction("Index");
             }
             return View(editViewModel);

@@ -1,0 +1,213 @@
+﻿.chat-box {
+    width: 80%;
+    padding: 0px 50px;
+    margin: 20px auto;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+.chat-content {
+    background-color: #eee;
+    width: 100%;
+    height: 60vh;
+    border-radius: 10px;
+    padding: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+    .chat-content::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .chat-content::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: black;
+    }
+
+.chat {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+    .chat .img-chat {
+        width: 80px;
+        height: 80px;
+        background-color: black;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+        .chat .img-chat img {
+            width: auto;
+            height: auto;
+            max-height: 100%;
+        }
+
+    .chat .chat-message {
+        width: 85%;
+        padding: 15px;
+        margin: 0px 10px;
+        border-radius: 10px;
+        font-size: 18px;
+        color: #fff;
+    }
+
+        .chat .chat-message .title {
+            text-align: center;
+            margin: 0px;
+            font-weight: bolder;
+            font-family: sans-serif;
+        }
+        .chat .chat-message .data {
+            color: #fff;
+            text-align: right;
+            margin: 0px;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .chat .chat-message .link {
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            color: #fff;
+            text-align: center;
+        }
+
+.consultor .chat-message {
+    background-color: #17a2b8;
+    border: 1px solid #17a2b8;
+    order: -1;
+}
+
+.visitante .chat-message {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.sistema {
+    display: flex;
+    justify-content: center;
+}
+
+    .sistema .chat-message {
+        background-color: #292b2c;
+        border: 1px solid #fff;
+    }
+
+.digitando {
+    position: relative;
+    top: 0;
+    text-align: center;
+    font-size: large;
+    height: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #6c757d;
+}
+
+.chat-form {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    width: 100%;
+}
+
+    .chat-form textarea {
+        width: 80%;
+        height: 50px;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #000;
+        padding-left: 15px;
+        resize: none;
+        border: 1px solid #17a2b8;
+        font-size: 17px;
+    }
+
+        .chat-form textarea::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-form textarea::-webkit-scrollbar-thumb {
+            border-radius: 100px;
+            background-color: #eee;
+        }
+
+        .chat-form textarea:focus {
+            border: 1px solid #f7f7f7;
+            border-radius: 10px;
+        }
+
+    .chat-form #upload {
+        display: none;
+    }
+
+    .chat-form label {
+        height: 50px;
+        width: 50px;
+        background-color: #17a2b8;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        margin: 0px 10px;
+        cursor: pointer;
+        font-size: large;
+    }
+
+    .chat-form button {
+        height: 50px;
+        width: 15%;
+        border-radius: 10px;
+        border: 1px solid #dc3545;
+        color: #fff;
+        background-color: #dc3545;
+        cursor: pointer;
+        font-size: large;
+    }
+
+.relogio {
+    max-width: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #dc3545;
+    font-weight: bolder;
+    font-family: sans-serif;
+    font-size: larger;
+}
+.dados{
+    display:flex;
+    justify-content: center;
+}
+.dados hr {
+    background-color: #fff;
+}
+.dados .title {
+    ont-weight: bolder;
+    font-family: sans-serif;
+    font-size: larger;
+}
+.dados-consultor {
+    background-color: #17a2b8;
+    padding: 20px !important;
+    border-radius: 5px;
+    color: white;
+    margin-left: 20px;
+}
+.dados-cliente {
+    background-color: #dc3545;
+    padding: 20px !important;
+    border-radius: 5px;
+    color: white;
+    margin-right: 20px;
+}
