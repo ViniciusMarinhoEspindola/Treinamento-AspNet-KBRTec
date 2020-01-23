@@ -174,12 +174,14 @@ namespace SistemaDeAtendimento.Controllers
                     string path = System.IO.Path.Combine(Server.MapPath("~/images"), foto);
                     file.SaveAs(path);
                 }
-                var user = new ApplicationUser { 
+                var user = new ApplicationUser
+                { 
                     UserName = model.Email, 
                     Email = model.Email,
                     Nome = model.Nome,
                     Foto = foto,
-                    Descricao = model.Descricao
+                    Descricao = model.Descricao,
+                    Status = "Ocupado"
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
