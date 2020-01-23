@@ -4,7 +4,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2 class="text-center my-5">Escolha o consultor com quem deseja falar</h2>
+<h2 class="text-center my-5 text-danger">Escolha o consultor com quem deseja falar</h2>
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
@@ -18,35 +18,31 @@
 
 @if (User.IsInRole("Consultor"))
 {
-    <div id="notificacao" class="" style="width=100px;border-radius:10px;">
+    <div id="notificacao" class="" style="width:100px;border-radius:10px;">
     </div>
 }
 
-<div class="row">
-    @*@if (string.IsNullOrEmpty(Model.First().Descricao))
-        {*@
+<div class="row">    
     @foreach (var item in Model)
     {
         <div class="card col-3">
-            <img style="max-height:190px" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
+            <div class="card-deck">
+                <img class="card-img" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
+            </div>
             <div class="card-body">
-                <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Nome)</h5>
-                <p class="card-text">@Html.DisplayFor(modelItem => item.Descricao)</p>
-                <p class="text-muted">@Html.DisplayFor(modelItem => item.Email)</p>
+                <h5 class="text-center card-title text-danger"> @Html.DisplayFor(modelItem => item.Nome)</h5>
+                <p class="card-text text-justify">@Html.DisplayFor(modelItem => item.Descricao)</p>
+                <p class="text-muted text-center">@Html.DisplayFor(modelItem => item.Email)</p>
 
-                <div class="" style="bottom:0px; position:relative">
-                    @*<a href="#" class="btn btn-primary">Falar com o consultor</a>*@
+            </div>
+
+                <div class="card-footer card-deck" style="display:flex;justify-content:center; bottom:0px; position:relative">
+                    
                     @Html.ActionLink("Falar com o consultor", "Visitante", "Home", new { idConsultor = item.Id }, new { @class = "btn btn-danger" })
                 </div>
-            </div>
+            
         </div>
     }
-    @*}
-        else
-        {
-            <h1 class="text-muted">Não há nenhum consultor disponível no momento</h1>
-        }*@
-
 
 </div>
 @section scripts {

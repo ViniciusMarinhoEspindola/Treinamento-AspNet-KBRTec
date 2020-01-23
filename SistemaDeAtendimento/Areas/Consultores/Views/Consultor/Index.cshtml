@@ -4,17 +4,17 @@
 
 @{
     ViewBag.Title = "Consultor";
-    ViewBag.Status = Model.First().AspNetUsers.Status == "Ocupado" ? "Ocupado" : "Disponível";
+   
 }
 
-@if (ViewBag.Status == "Disponível")
+@*@if (Model.First().AspNetUsers.Status == "Disponível")
 {
-    <h5 style="position:absolute; right:35px;" class="text-success">Status: @ViewBag.Status</h5>
+    <h5 style="position:absolute; right:35px;" class="text-success">Status: @Model.First().AspNetUsers.Status</h5>
 }
 else
 {
-    <h5 style="position:absolute; right:35px;" class="text-danger">Status: @ViewBag.Status</h5>
-}
+    <h5 style="position:absolute; right:35px;" class="text-danger">Status: @Model.First().AspNetUsers.Status</h5>
+}*@
 
 <h2 class="mb-3 mt-4">Área do Consultor</h2>
 
@@ -32,11 +32,11 @@ else
 </div>
 
 <div style="display:flex; justify-content:center;" id="buttons">
-    @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-warning mx-2 text-light" })
+    @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-info mx-2 text-light" })
 
     @*@Html.ActionLink("Entrar no chat", "Entrar", "Chat", new { area = "", groupId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light" })*@
 
-    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-warning mx-2 text-light", @id = "status" })
+    @Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-info mx-2 text-light", @id = "status" })
 </div>
 
 <h3 class="text-center my-5">Histórico de atendimentos</h3>
@@ -72,7 +72,7 @@ else
                     @Html.DisplayFor(modelItem => item.dtConversa)
                 </td>
                 <td>
-                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-warning text-light" })
+                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-info text-light" })
                 </td>
             </tr>
         }
@@ -90,7 +90,7 @@ else
 
             chat.client.link = function (link) {
                 $("#notificacao").html("<a href='" + link + "'><div class='alert alert-success'>Um usuário solicitou uma conversa com você pelo chat!</div></a>");
-                $("#buttons").append("<a href='" + link + "' class='btn btn-warning text-light'>Entrar no chat</a>");
+                $("#buttons").append("<a href='" + link + "' class='btn btn-info text-light'>Entrar no chat</a>");
                 $("#status").css("display", "none");
             }
 

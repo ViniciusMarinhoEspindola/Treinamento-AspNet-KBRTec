@@ -7,24 +7,43 @@ using SistemaDeAtendimento.ChatHub;
 using SistemaDeAtendimento.Entity;
 using Microsoft.AspNet.Identity;
 using SistemaDeAtendimento.App_Start;
+using SistemaDeAtendimento.Models;
+using SistemaDeAtendimento.Helpers;
 
 namespace SistemaDeAtendimento.Controllers
 {
     public class ChatController : Controller
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
+        private List<ChatViewModel> modelChat = new List<ChatViewModel>();
         // GET: Chat
-        public ActionResult Index(int IdConversa)
+        public ActionResult Index(int Id)
         {
-            var conversa = db.Conversa.Find(IdConversa);
+            var conversa = db.Conversa.Find(Id);
+
+            //ViewBag.Tempo = int.Parse(Cookies.Get("Tempo"));
+
             if (User.IsInRole("Consultor"))
             {
                 ViewBag.Consultor = 1;
+                ViewBag.Cronometro = 0;
             }
             else
             {
+                ViewBag.Cronometro = TempData["cronometro"];
+                if (ViewBag.Cronometro != 0)
+                {
+                    TempData["Message"] = "Desculpe, mas você se desconectou do chat!";
+                    return RedirectToAction("index", "Home");
+                }
                 ViewBag.Consultor = 0;
             }
+            //var variavel = modelChat.FirstOrDefault(x => x.IdVisitante == conversa.VisitanteId);
+            //variavel.IdConversa = conversa.IdConversa;
+            //variavel.consultor = conversa.AspNetUsers.Id;
+            //variavel.nm_consultor = conversa.AspNetUsers.Nome;
+            //variavel.nm_visitante = conversa.Visitante.Nome;
+
             return View(conversa);
         }
 
@@ -64,6 +83,9 @@ namespace SistemaDeAtendimento.Controllers
         public ActionResult Entrar(string groupId, int? visitanteId)
         {
             //
+            var visitante = db.Visitante.Find(visitanteId);
+            //Cookies.Set("Tempo", (visitante.Duracao * 60).ToString());
+            TempData["cronometro"] = 0;
             var verificaConsultor = db.Conversa.Where(s => s.ConsultorId == groupId).Where(a => a.VisitanteId == null).Count();
             var IdConversa = 0;
            
@@ -82,7 +104,7 @@ namespace SistemaDeAtendimento.Controllers
                 {                 
                     torcaStatus.Status = "Ocupado";
                     db.SaveChanges();
-                    return RedirectToAction("index", "Chat", new { IdConversa = conversa.IdConversa });
+                    return RedirectToAction("index", "Chat", new { Id = conversa.IdConversa });
                 }
 
                 conversa.VisitanteId = visitanteId;
@@ -91,10 +113,13 @@ namespace SistemaDeAtendimento.Controllers
                 torcaStatus.Status = "Ocupado";
                 
             }
+            //var visitante = db.Visitante.Find(visitanteId);
+            //modelChat.Add(new ChatViewModel { Duracao = (visitante.Duracao * 60), IdVisitante = visitante.IdVisitante });
 
             db.SaveChanges();
             
-            return RedirectToAction("index", "Chat", new { IdConversa = IdConversa });
+
+            return RedirectToAction("index", "Chat", new { Id = IdConversa });
         }
     }
 }

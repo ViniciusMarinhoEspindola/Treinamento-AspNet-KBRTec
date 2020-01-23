@@ -86,11 +86,11 @@
     <EntitySetMapping Name="Visitante">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Visitante">
         <MappingFragment StoreEntitySet="Visitante">
-          <ScalarProperty Name="Duracao" ColumnName="Duracao" />
           <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Celular" ColumnName="Celular" />
+          <ScalarProperty Name="Duracao" ColumnName="Duracao" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

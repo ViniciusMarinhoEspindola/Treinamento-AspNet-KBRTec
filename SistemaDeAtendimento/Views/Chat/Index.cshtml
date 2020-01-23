@@ -1,49 +1,41 @@
 ﻿@model SistemaDeAtendimento.Entity.Conversa
 @{
     ViewBag.Title = "Chat";
-    ViewBag.Tempo = (Model.Visitante.Duracao * 60);
+    ViewBag.Tempo = (@Model.Visitante.Duracao * 60);
 }
-<link href="~/Content/FlipClock/flipclock.css" rel="stylesheet" />
+<link href="~/Content/ChatStyle.css" rel="stylesheet" />
 
-<h2 class="text-center mt-3">Chat com o consultor</h2>
+<h2 class="text-center my-5">Chat com o consultor</h2>
+<div style="display:flex; justify-content:center">
+    <div class="mr-3"><strong class="relogio">Tempo de Chat: <span class="tempoTotal "></span></strong></div>
+    <div><strong class="relogio">Tempo Percorrido: <span class="clock "></span></strong></div>
+</div>
 
-<div class="clock" style="margin:2em;"></div>
 
-<div class="container">
-    <div class="row">
+<div class="chat-box">
+    <div class="chat-content" id="discussion">
+    </div>
 
-        <p id="Nome"></p>
-        <div class="col-12 my-5" style="height: 70vh; border-left: 2px solid gray; border-right: 2px solid gray; border-top: 2px solid gray; border-bottom: 2px solid gray;">
-            <div id="discussion" style="height: 60vh; overflow:auto;">
-            </div>
-            <div id="digitando" style="position: absolute; bottom:15px;"></div>
-            <div class="ml-5" style="position: absolute; bottom:-20px; width:100%">
-                <div class="form-row">
-                    <!-- Input cadastrar mensagem -->
-                    <input type="text" class="col-9 form-control" id="message" />
+    <div id="digitando" class="digitando">Digite alguma coisa</div>
+    
+    <div class="chat-form">
+        <textarea type="text" id="message"></textarea>
 
-                    @using (Html.BeginForm("Upload", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", @id = "form" }))
-                    {
-                        <!-- Botão carregar arquivo -->
-                        <label id="fileLabel" style="height:40px; max-width:50px" class="btn btn-info col-1 py-2 mx-3" for="upload"><i class="fas fa-file-upload"></i></label>
-                        @*@Html.TextBoxFor(m => m.Arq, new { @class = "form-control", type = "file", @id = "upload", @style = "display:none;" })*@
-                        <input type="file" name="Arq" id="upload" style="display:none;" />
-                        <input type="hidden" name="pathUpl" id="pathUpl" />
-                        @*<input type="file" class="col-1 btn btn-warning" id="upload" style="display:none;" />*@
-                    }
+        @using (Html.BeginForm("Upload", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", @id = "form" }))
+        {
+            <label for="upload" class="btn btn-info" id="fileLabel"><i class="fas fa-file-upload"></i></label>
+            <input type="file" name="Arq" id="upload">
+            <input type="hidden" name="pathUpl" id="pathUpl" />
 
-                    <!-- Botão enviar -->
-                    <input type="button" style="height:40px;" class="btn btn-danger py-2 col-1" id="sendmessage" value="Enviar" />
+        }
+        <button id="sendmessage" class="btn btn-danger">Enviar</button>
 
-                    <!-- Nome do usuario -->
-                    <input type="hidden" id="displayname" />
-                </div>
-            </div>
-        </div>
+        <!-- Nome do usuario -->
+        <input type="hidden" id="displayname" />
     </div>
 </div>
+
 @section scripts {
-    <script src="~/Scripts/FlipClock/flipclock.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script>
@@ -51,41 +43,71 @@
             $("#fileLabel").html("<i class='far fa-thumbs-up'></i>");
         });
 
+        function format_hr(s){
+          function duas_casas(numero){
+            if (numero <= 9){
+              numero = "0"+numero;
+            }
+            return numero;
+          }
+          minuto = duas_casas(Math.round((s%3600)/60));
+          segundo = duas_casas((s%3600)%60);
+          formatado = minuto+":"+segundo;
+
+          return formatado;
+        }
+
         $(function () {
             var chat = $.connection.chatHub;
 
+            $(".tempoTotal").html(format_hr((@Model.Visitante.Duracao * 60)))
             $("#pathUpl").val("@Model.IdConversa")
 
 
-            chat.client.addNewMessageToPage = function (name, message) {
-                $('#discussion').append('<p><strong>' + name + '</strong>: ' + htmlEncode(message) + '</p>');
+            chat.client.addNewMessageToPageConsultor = function (name, message) {
+                $('#discussion').append('<div class="chat consultor"><div class="img-chat"><img src="~/images/@Model.AspNetUsers.Foto" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p>' + htmlEncode(message) + '</span></div>');
+                var height = document.getElementById("discussion").scrollHeight;
+                document.getElementById("discussion").scrollTop = height;
             };
 
-            chat.client.addNewLinkFileToPage = function (name, filename, conversa) {
-                $('#discussion').append('<p><strong>' + name + '</strong>: <a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"><button class="btn btn-outline-info" id="linkDownload">' + filename + '</button></a></p>');
+            chat.client.addNewMessageToPageVisitante = function (name, message) {
+                $('#discussion').append('<div class="chat visitante"><div class="img-chat"><img src="~/images/c5deda83-91f6-4c0b-bb06-b8e556733b3auser.jpg" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p>' + htmlEncode(message) + '</span></div>');
+                var height = document.getElementById("discussion").scrollHeight;
+                document.getElementById("discussion").scrollTop = height;
+            };
+
+            chat.client.addNewLinkFileToPageConsultor = function (name, filename, conversa) {
+                $('#discussion').append('<div class="chat consultor"><div class="img-chat"><img src="~/images/@Model.AspNetUsers.Foto" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p><a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"><button class="link" id="linkDownload">' + filename + '</button></a></span></div>');
+                var height = document.getElementById("discussion").scrollHeight;
+                document.getElementById("discussion").scrollTop = height;
+            }
+
+            chat.client.addNewLinkFileToPageVisitante = function (name, filename, conversa) {
+                $('#discussion').append('<div class="chat visitante"><div class="img-chat"><img src="~/images/c5deda83-91f6-4c0b-bb06-b8e556733b3auser.jpg" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p> <a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"><button class="link" id="linkDownload">' + filename + '</button></a></span></div>');
+                var height = document.getElementById("discussion").scrollHeight;
+                document.getElementById("discussion").scrollTop = height;
             };
 
             chat.client.joinGroup = function (name) {
-                $('#discussion').append('<p class="text-muted">' + name + '</p>');
+                $('#discussion').append('<div class="chat sistema"><span class="chat-message text-center">' + name + '</span></div>');
             };
 
             chat.client.leaveGroup = function (name) {
-                $('#discussion').append('<p class="text-muted">' + name + '</p>');
+                $('#discussion').append('<div class="chat sistema"><span class="chat-message text-center">' + name + '</span></div>');
             };
 
             chat.client.countTimer = function (atual, tempo) {
                 $(".clock").html(atual);
-                let url = window.location.href.split("Chat");
-                console.log(url[0])
+
                 if (tempo > 0) {
                     if (!@ViewBag.Consultor) {
                         tempo = tempo - 1;
-                        var repetir = setTimeout(function () { chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Consultor, tempo); }, 1000);
+                        var repetir = setTimeout(function () { chat.server.timer("@Model.AspNetUsers.Id", tempo); }, 1000);
                     }
                 } else {
                     chat.server.removeFromGroup("@Model.AspNetUsers.Id", $('#displayname').val());
                     let url = window.location.href.split("Chat");
-                    console.log(url[0])
+
                     if (!@ViewBag.Consultor) {
                         window.location.href = url[0];
                     } else {
@@ -95,11 +117,11 @@
             }
 
             chat.client.digitandoMessage = function (name) {
-                $('#digitando').html('<p class="text-muted">' + name + '</p>');
+                $('#digitando').html('<p class="text-muted text-center">' + name + '</p>');
             };
 
             chat.client.apagarDigitandoMessage = function (name) {
-                $('#digitando').html("");
+                $('#digitando').html('');
             };
 
             if (@ViewBag.Consultor) {
@@ -112,9 +134,7 @@
             $.connection.hub.start().done(function () {
                 chat.server.addToGroup("@Model.AspNetUsers.Id", $('#displayname').val());
 
-                if (!@ViewBag.Consultor) {
-                    chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Consultor, @ViewBag.Tempo);
-                }
+
                 chat.server.chatLink("@Model.AspNetUsers.Id", @Model.IdConversa);
 
                 $('#sendmessage').click(function () {
@@ -149,6 +169,16 @@
                 $('#message').blur(function () {
                      chat.server.apagarDigite("@Model.AspNetUsers.Id");
                 });
+
+                if (!@ViewBag.Consultor) {
+                    if (@ViewBag.Cronometro) {
+                        console.log("ola")
+                        chat.server.removeFromGroup("@Model.AspNetUsers.Id", $('#displayname').val());
+                        let url = window.location.href.split("Chat");
+                        window.location.href = url[0];
+                    }
+                    chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Tempo);
+                }
             });
         });
 
@@ -158,3 +188,4 @@
         }
     </script>
 }
+    

@@ -2,93 +2,89 @@
 @{
     ViewBag.Title = "Mensagens";
 }
+<link href="~/Content/ChatStyle.css" rel="stylesheet" />
 
 <h2 class="text-center my-5">Histórico de Mensagens</h2>
-<div class="row">
-    <div class="col-12 row my-4">
-        <div class="col-6" style="display:flex; justify-content:center">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="text-center">Dados do Cliente</th>
-                    </tr>
-                    <tr>
-                        <th class="text-center"><hr /></th>
-                    </tr>
+<div class="dados">
+    <div class=" ">
+        <div class="dados-cliente">
+            <div>
+                <p class="title text-center">Dados do Cliente</p>
+                <hr />
+            </div>
 
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td><strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Nome)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Email)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Celular:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Celular)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="col-6" style="display:flex; justify-content:center">
-            <table>
-                <tr>
-                    <th class="text-center">Dados do Consultor</th>
-                </tr>
-                <tr>
-                    <th class="text-center"><hr /></th>
-                </tr>
-                <tr>
-                    <td><strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Nome)</td>
-                </tr>
-                <tr>
-                    <td><strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Email)</td>
-                </tr>
-                <tr>
-                    <td><strong>Descrição:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Descricao)</td>
-                </tr>
-            </table>
+            <div class="cliente-content">
+                <p>
+                    <strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Nome)
+                </p>
+                <p>
+                    <strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Email)
+                </p>
+                <p>
+                    <strong>Celular:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.Visitante.Celular)
+                </p>
+            </div>
         </div>
     </div>
-    <div id="discussion" class="col-12 pt-3" style="height: 60vh; overflow:auto;border:1px solid gray;border-radius:10px">
-        <div class="container">
-            @foreach (var item in Model)
-            {
 
-                <div class="row">
-                    <div class="col-9 my-2">
-                        @if (item.Remetente == true)
-                        {
-
-                            <strong>
-                                @Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome):
-                            </strong>
-                        }
-                        else
-                        {
-                            <strong>
-                                @Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome):
-                            </strong>
-                        }
-                        @if (!string.IsNullOrEmpty(item.Mensagem))
-                        {
-                            @Html.DisplayFor(modelItem => item.Mensagem)
-                        }
-
-                        @if (!string.IsNullOrEmpty(item.Arquivos))
-                        {
-                            <a target='_blank' href='@Html.DisplayFor(modelItem => item.Arquivos)'><button class='btn btn-outline-danger' id='linkDownload'>@Html.DisplayFor(modelItem => item.Arquivos)</button></a>
-                        }
-                    </div>
-                    <div class="text-muted col-3">
-                        @Html.DisplayFor(modelItem => item.data)
-                    </div>
-
-                </div>
-            }
+    <div class="">
+        <div class="dados-consultor">
+            <p class="title text-center">Dados do Consultor</p>
+            <hr />
+            <div class="consultor-content">
+                <p>
+                    <strong>Nome:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Nome)
+                </p>
+                <p>
+                    <strong>E-mail:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Email)
+                </p>
+                <p>
+                    <strong>Descrição:</strong> @Html.DisplayFor(modelItem => modelItem.First().Conversa.AspNetUsers.Descricao)
+                </p>
+            </div>
         </div>
     </div>
 </div>
+</div>
+<div class="chat-box">
+    <div class="chat-content" id="discussion">
+        @foreach (var item in Model)
+        {
+            if (item.Remetente == true)
+            {
+                <div class="chat consultor">
+                    <div class="img-chat"><img src="~/images/@Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Foto)" alt=""></div>
+                    <span class="chat-message"><p class="title">@Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome)</p> @Html.DisplayFor(modelItem => item.Mensagem)<p class="data">@Html.DisplayFor(modelItem => item.data)</p></span>
+                </div>
+                if (!string.IsNullOrEmpty(item.Arquivos))
+                {
+                    <div class="chat consultor">
+                        <div class="img-chat"><img src="~/images/@Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Foto)" alt=""></div>
+                        <span class="chat-message"><p class="title">@Html.DisplayFor(modelItem => item.Conversa.AspNetUsers.Nome)</p><a target='_blank' href='@Html.DisplayFor(modelItem => item.Arquivos)'><button class='link' id='linkDownload'>@Html.DisplayFor(modelItem => item.Arquivos)</button></a><p class="data">@Html.DisplayFor(modelItem => item.data)</p></span>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="chat visitante">
+                    <div class="img-chat"><img src="../Pictures/plano de fundo.jpg" alt=""></div>
+                    <span class="chat-message"><p class="title">@Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome)</p>@Html.DisplayFor(modelItem => item.Mensagem)<p class="data">@Html.DisplayFor(modelItem => item.data)</p></span>
+                </div>
+                if (!string.IsNullOrEmpty(item.Arquivos))
+                {
+                    <div class="chat consultor">
+                        <div class="img-chat"><img src="../Pictures/plano de fundo.jpg" alt=""></div>
+                        <span class="chat-message"><p class="title">@Html.DisplayFor(modelItem => item.Conversa.Visitante.Nome)</p><a target='_blank' href='@Html.DisplayFor(modelItem => item.Arquivos)'><button class='link' id='linkDownload'>@Html.DisplayFor(modelItem => item.Arquivos)</button></a><p class="data">@Html.DisplayFor(modelItem => item.data)</p></span>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
 <div style="height:50px"></div>
+
+<script>
+    var height = document.getElementById("discussion").scrollHeight;
+    document.getElementById("discussion").scrollTop = height;
+</script>
