@@ -41,7 +41,12 @@ namespace SistemaDeAtendimento.ChatHub
         {
             TimeSpan result = TimeSpan.FromSeconds(tempo);
             string tempoFinal = result.ToString("mm':'ss");
+<<<<<<< HEAD
             //Cookies.Set("Tempo", tempo.ToString());
+=======
+            var variavel = modelChat.FirstOrDefault(x => x.consultor == groupName);
+            variavel.Duracao = tempo;
+>>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
             Clients.Group(groupName).countTimer(tempoFinal, tempo);
         }
 

@@ -8,7 +8,10 @@ using SistemaDeAtendimento.Entity;
 using Microsoft.AspNet.Identity;
 using SistemaDeAtendimento.App_Start;
 using SistemaDeAtendimento.Models;
+<<<<<<< HEAD
 using SistemaDeAtendimento.Helpers;
+=======
+>>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
 
 namespace SistemaDeAtendimento.Controllers
 {
@@ -21,6 +24,7 @@ namespace SistemaDeAtendimento.Controllers
         {
             var conversa = db.Conversa.Find(Id);
 
+<<<<<<< HEAD
             //ViewBag.Tempo = int.Parse(Cookies.Get("Tempo"));
 
             if (User.IsInRole("Consultor"))
@@ -45,6 +49,30 @@ namespace SistemaDeAtendimento.Controllers
             //variavel.nm_visitante = conversa.Visitante.Nome;
 
             return View(conversa);
+=======
+            if (User.IsInRole("Consultor"))
+            {
+                ViewBag.Consultor = 1;
+                //ViewBag.Cronometro = 0;
+            }
+            else
+            {
+                //ViewBag.Cronometro = TempData["cronometro"];
+                //if (ViewBag.Cronometro != 0)
+                //{
+                //    TempData["Message"] = "Desculpe, mas você se desconectou do chat!";
+                //    return RedirectToAction("index", "Home");
+                //}
+                ViewBag.Consultor = 0;
+            }
+            var variavel = modelChat.FirstOrDefault(x => x.IdVisitante == conversa.VisitanteId);
+            variavel.IdConversa = conversa.IdConversa;
+            variavel.consultor = conversa.AspNetUsers.Id;
+            variavel.nm_consultor = conversa.AspNetUsers.Nome;
+            variavel.nm_visitante = conversa.Visitante.Nome;
+
+            return View(variavel);
+>>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
         }
 
         public ActionResult Upload(HttpPostedFileBase arq, string pathUpl)
@@ -113,8 +141,13 @@ namespace SistemaDeAtendimento.Controllers
                 torcaStatus.Status = "Ocupado";
                 
             }
+<<<<<<< HEAD
             //var visitante = db.Visitante.Find(visitanteId);
             //modelChat.Add(new ChatViewModel { Duracao = (visitante.Duracao * 60), IdVisitante = visitante.IdVisitante });
+=======
+            var visitante = db.Visitante.Find(visitanteId);
+            modelChat.Add(new ChatViewModel { Duracao = (visitante.Duracao * 60), IdVisitante = visitante.IdVisitante });
+>>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
 
             db.SaveChanges();
             

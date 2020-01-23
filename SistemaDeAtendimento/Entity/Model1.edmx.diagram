@@ -4,7 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
+<<<<<<< HEAD
       <Diagram DiagramId="39ee19e6e69f46dca659db870e031cbb" Name="Diagram1">
+=======
+      <Diagram DiagramId="bd957394ef3242f4b07968c946b07c30" Name="Diagram1">
+>>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
         <EntityTypeShape EntityType="SistemaAtendimentoModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAtendimentoModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="SistemaAtendimentoModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
@@ -17,7 +21,7 @@
         <AssociationConnector Association="SistemaAtendimentoModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAtendimentoModel.FK_Conversa_Consultor" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAtendimentoModel.FK_Conversa_Visitante" ManuallyRouted="false" />
-        <AssociationConnector Association="SistemaAtendimentoModel.FK_Mensagem_Conversa" ManuallyRouted="false" />
+        <AssociationConnector Association="SistemaAtendimentoModel.FK_Mensagens_Conversa" ManuallyRouted="false" />
         <AssociationConnector Association="SistemaAtendimentoModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
