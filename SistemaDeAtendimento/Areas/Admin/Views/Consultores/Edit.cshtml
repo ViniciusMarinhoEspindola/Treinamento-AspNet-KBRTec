@@ -36,8 +36,10 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "col-md-4" })
                 <div class="col-md-12">
-                    @Html.TextBoxFor(model => model.Foto, new { @class = "form-control", type = "file" })
+                    <img src="~/images/@Html.DisplayFor(Model => Model.FotoAntiga)" id="preview" alt="Foto Atual" style="max-width:370px" />
+                    @Html.TextBoxFor(model => model.Foto, new { @class = "form-control", type = "file", @id = "FotoInput" })
                     @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+                    
                 </div>
             </div>
 
@@ -59,3 +61,17 @@
         }
     </div>
 </div>
+
+<script>
+    function readImage() {
+    if (this.files && this.files[0]) {
+        var file = new FileReader();
+            file.onload = function(e) {
+                document.getElementById("preview").src = e.target.result;
+            };       
+            file.readAsDataURL(this.files[0]);
+        }
+    }
+
+    document.getElementById("FotoInput").addEventListener("change", readImage, false);
+</script>

@@ -11,7 +11,7 @@
     <div class="alert alert-success">@ViewBag.Message</div>
 }
 
-<div id="notificacao" class="" style="width=100px;border-radius:10px;">
+<div id="notificacao" class="" style="width:100px;border-radius:10px;">
 </div>
 
 <div style="display:flex; justify-content:center;">
@@ -57,7 +57,7 @@
                     @Html.DisplayFor(modelItem => item.dtConversa)
                 </td>
                 <td>
-                    @Html.ActionLink("Detalhes", "Mensagens", new { conversa = item.IdConversa }, new { @class = "btn btn-danger text-light" })
+                    @Html.ActionLink("Detalhes", "Mensagens", new { Id = item.IdConversa }, new { @class = "btn btn-danger text-light" })
                 </td>
             </tr>
         }

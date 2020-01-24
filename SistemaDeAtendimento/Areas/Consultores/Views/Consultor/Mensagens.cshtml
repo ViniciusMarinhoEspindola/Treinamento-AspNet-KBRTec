@@ -1,13 +1,20 @@
 ﻿@model IEnumerable<SistemaDeAtendimento.Entity.Mensagens>
 @{
     ViewBag.Title = "Mensagens";
+    ViewBag.TempoConversa = (Model.First().Conversa.Visitante.Duracao * 60);
 }
 <link href="~/Content/ChatStyle.css" rel="stylesheet" />
 
+<div class="text-center" style="position: absolute; right: 30px;">
+    <h5>Tempo de conversa</h5> 
+    <span id="TempoConversa"></span> min.
+</div>
+
 <h2 class="text-center my-5">Histórico de Mensagens</h2>
+
 <div class="dados">
         <div class=" ">
-            <div class="dados-cliente">
+            <div class="dados-cliente dados-conversa">
                 <div>
                     <p class="title text-center">Dados do Cliente</p>
                    <hr />
@@ -28,7 +35,7 @@
         </div>
 
         <div class="" >
-            <div class="dados-consultor">
+            <div class="dados-consultor dados-conversa">
                 <p class="title text-center">Dados do Consultor</p>
                 <hr />
                 <div class="consultor-content">
@@ -84,6 +91,20 @@
 <div style="height:50px"></div>
 
 <script>
+    function format_hr(s){
+        function duas_casas(numero){
+        if (numero <= 9){
+            numero = "0"+numero;
+        }
+        return numero;
+        }
+        minuto = duas_casas(Math.round((s%3600)/60));
+        segundo = duas_casas((s%3600)%60);
+        formatado = minuto+":"+segundo;
+
+        return formatado;
+    }
+    document.getElementById("TempoConversa").innerHTML = format_hr(@ViewBag.TempoConversa);
     var height = document.getElementById("discussion").scrollHeight;
     document.getElementById("discussion").scrollTop = height;
 </script>

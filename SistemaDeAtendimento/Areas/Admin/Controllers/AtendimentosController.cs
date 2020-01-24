@@ -11,17 +11,30 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
         // GET: Admin/Atendimentos
-        public ActionResult Index(string consultor)
+        public ActionResult Index(string Id)
         {
-            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == consultor).Where(s => s.VisitanteId != null).OrderByDescending(s => s.IdConversa).ToList();
+            var Atendimentos = db.Conversa.Where(s => s.ConsultorId == Id).Where(s => s.VisitanteId != null).OrderByDescending(s => s.IdConversa).ToList();
             return View(Atendimentos);
         }
 
-        public ActionResult Mensagens(int conversa)
+        public ActionResult Mensagens(int Id)
         {
-            var mensagens = db.Mensagens.Where(s => s.ConversaId == conversa);
+            var msg = db.Mensagens.Where(s => s.ConversaId == Id).Count();
+            if (msg > 0)
+            {
+                var mensagens = db.Mensagens.Where(s => s.ConversaId == Id);
+                return View(mensagens);
+            }
+            else
+            {
+                return RedirectToAction("Mensagens404");
+            }
 
-            return View(mensagens);
+        }
+
+        public ActionResult Mensagens404()
+        {
+            return View();
         }
     }
 }

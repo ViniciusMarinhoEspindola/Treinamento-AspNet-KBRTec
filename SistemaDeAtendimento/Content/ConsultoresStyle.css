@@ -1,0 +1,33 @@
+﻿.title {
+    font-family: 'Palatino Linotype';
+    font-size: 45px;
+}
+
+    
+form button {
+    border: 1px solid #dc3545;
+    height: 36px;
+    background-color: #fff;
+    color: #dc3545;
+}
+form button:hover {
+    border: 1px solid #dc3545;
+    height: 36px;
+    background-color: #dc3545;
+    color: #fff;
+}
+.list-consultores {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    margin-bottom: 50px;
+}
+
+.list-consultores::-webkit-scrollbar {
+    height: 10px;
+}
+
+.list-consultores::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #DCDCDC;
+}

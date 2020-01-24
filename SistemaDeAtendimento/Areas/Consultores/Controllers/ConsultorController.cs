@@ -63,11 +63,23 @@ namespace SistemaDeAtendimento.Areas.Consultores.Controllers
             return View(Atendimentos);
         }
 
-        public ActionResult Mensagens(int conversa)
+        public ActionResult Mensagens(int Id)
         {
-            var mensagens = db.Mensagens.Where(s => s.ConversaId == conversa);
+            var msg = db.Mensagens.Where(s => s.ConversaId == Id).Count();
+            if (msg > 0)
+            {
+                var mensagens = db.Mensagens.Where(s => s.ConversaId == Id);
+                return View(mensagens);
+            }
+            else
+            {
+                return RedirectToAction("Mensagens404");
+            }
+        }
 
-            return View(mensagens);
+        public ActionResult Mensagens404()
+        {
+            return View();
         }
 
         // GET: /Admin/ChangePassword

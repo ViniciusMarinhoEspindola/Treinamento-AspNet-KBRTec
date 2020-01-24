@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Mensagens404";
+}
+<link href="~/Content/ChatStyle.css" rel="stylesheet" />
+
+<h2 class="text-center my-5">Histórico de Mensagens</h2>
+<div class="dados">
+    <div class=" ">
+        <div class="dados-cliente dados-conversa">
+            <div>
+                <p class="title text-center">Dados do Cliente</p>
+                <hr />
+            </div>
+
+            <div class="cliente-content">
+                <p><strong>Nenhum dado encontrado!</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="dados-consultor dados-conversa">
+            <p class="title text-center">Dados do Consultor</p>
+            <hr />
+            <div class="consultor-content">
+                <p><strong>Nenhum dado encontrado!</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="chat-box">
+    <div class="chat-content" id="discussion">
+        <div class="chat sistema">            
+            <span class="chat-message text-center"><p class="title">Sistema</p> Nenhuma mensagem encontrada para esta conversa!</span>
+        </div>
+    </div>
+</div>
+
+<div style="height:50px"></div>
+
+<script>
+    var height = document.getElementById("discussion").scrollHeight;
+    document.getElementById("discussion").scrollTop = height;
+</script>

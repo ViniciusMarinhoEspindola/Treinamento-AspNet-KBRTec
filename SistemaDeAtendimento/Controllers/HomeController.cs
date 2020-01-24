@@ -17,29 +17,29 @@ namespace SistemaDeAtendimento.Controllers
             return View(User);
         }
 
-        public ActionResult Visitante(string idConsultor)
+        public ActionResult Visitante(string Id)
         {
             
-            var user = db.AspNetUsers.Find(idConsultor);
+            var user = db.AspNetUsers.Find(Id);
             if (user.Status == "Ocupado")
             {
                 TempData["Message"] = "Desculpe, Mas parece que este consultor acabou de ficar ocupado! Tente novamente com outro consultor.";
                 return RedirectToAction("index", "Home");
             }
-            ViewBag.idConsultor = idConsultor;
+            ViewBag.idConsultor = Id;
             return View();
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Visitante(string groupId, [Bind(Include = "Nome,Email,Celular,Duracao")] Visitante visitante)
+        public ActionResult Visitante(string Id, [Bind(Include = "Nome,Email,Celular,Duracao")] Visitante visitante)
         {
             if (ModelState.IsValid)
             {
                 var visita = db.Visitante.Add(visitante);
                 db.SaveChanges();
                 
-                return RedirectToAction("Entrar", "Chat", new { groupId = groupId, visitanteId = visita.IdVisitante });
+                return RedirectToAction("Entrar", "Chat", new { groupId = Id, visitanteId = visita.IdVisitante });
             }
             return View(visitante);
         }

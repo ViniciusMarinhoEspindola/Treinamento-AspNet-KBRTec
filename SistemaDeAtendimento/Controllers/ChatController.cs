@@ -21,9 +21,6 @@ namespace SistemaDeAtendimento.Controllers
         public ActionResult Index(int Id)
         {
             var conversa = db.Conversa.Find(Id);
-
-            //ViewBag.Tempo = int.Parse(Cookies.Get("Tempo"));
-
             if (User.IsInRole("Consultor"))
             {
                 ViewBag.Consultor = 1;
@@ -79,9 +76,13 @@ namespace SistemaDeAtendimento.Controllers
         public ActionResult Entrar(string groupId, int? visitanteId)
         {
             //
+            var torcaStatus = db.AspNetUsers.Find(groupId);
+            torcaStatus.Status = "Ocupado";
+            db.SaveChanges();
+
             var visitante = db.Visitante.Find(visitanteId);
-            //Cookies.Set("Tempo", (visitante.Duracao * 60).ToString());
             TempData["cronometro"] = 0;
+
             var verificaConsultor = db.Conversa.Where(s => s.ConsultorId == groupId).Where(a => a.VisitanteId == null).Count();
             var IdConversa = 0;
            
@@ -94,20 +95,13 @@ namespace SistemaDeAtendimento.Controllers
             } else
             {
                 var conversa = db.Conversa.Where(s => s.ConsultorId == groupId).Where(s => s.VisitanteId == null).OrderByDescending(a => a.IdConversa).First();
-                var torcaStatus = db.AspNetUsers.Find(groupId);
-
+                
                 if (User.IsInRole("Consultor"))
-                {                 
-                    torcaStatus.Status = "Ocupado";
-                    db.SaveChanges();
+                {   
                     return RedirectToAction("index", "Chat", new { Id = conversa.IdConversa });
                 }
-
                 conversa.VisitanteId = visitanteId;
                 IdConversa = conversa.IdConversa;
-
-                torcaStatus.Status = "Ocupado";
-                
             }
 
             db.SaveChanges();

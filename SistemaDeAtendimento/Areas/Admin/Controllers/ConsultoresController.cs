@@ -60,7 +60,10 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            ViewBag.Success = TempData["Sucesso"];
             ViewBag.Message = TempData["Message"];
+            TempData["Message"] = null;
+            TempData["Sucesso"] = null;
             var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.OrderByDescending(s => s.OrdemRegistros).ToList();
             return View(User);
         }
@@ -89,7 +92,8 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                     string[] extPermitidas = { ".png", ".jpg", ".jpeg", ".gif" };
                     if(!extPermitidas.Contains(ext))
                     {
-                        TempData["Message"] = "A extensão " + ext + " não é um tipo de extensão válida!";
+                        TempData["Sucesso"] = 0;
+                        TempData["Message"] = "A extensão " + ext + " não é um tipo de extensão de imagem válida!";
                         return RedirectToAction("Index");
                     }
                     foto = Guid.NewGuid().ToString() + System.IO.Path.GetFileName(file.FileName);
@@ -120,6 +124,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
 
                     UserManager.AddToRole(user.Id, "Consultor");
 
+                    TempData["Sucesso"] = 1;
                     TempData["Message"] = "Cadastrado com sucesso!";
                     return RedirectToAction("Index");
                 }
@@ -170,6 +175,14 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                 string foto = null;
                 if (file != null)
                 {
+                    var ext = System.IO.Path.GetExtension(file.FileName);
+                    string[] extPermitidas = { ".png", ".jpg", ".jpeg", ".gif" };
+                    if (!extPermitidas.Contains(ext))
+                    {
+                        TempData["Sucesso"] = 0;
+                        TempData["Message"] = "A extensão " + ext + " não é um tipo de extensão de imagem válida!";
+                        return RedirectToAction("Index");
+                    }
                     if (editViewModel.FotoAntiga != null)
                         System.IO.File.Delete(System.IO.Path.Combine(Server.MapPath("~/images"), editViewModel.FotoAntiga));
 
@@ -180,6 +193,13 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
                 }
                 if (!user.Email.Equals(editViewModel.Email))
                 {
+                    var confirmaEmail = db.AspNetUsers.Where(s => s.Email.Contains(editViewModel.Email)).Count();
+                    if (confirmaEmail > 0)
+                    {
+                        TempData["Sucesso"] = 0;
+                        TempData["message"] = "Este E-mail já está cadastrado, tente novamente com outro email!";
+                        return RedirectToAction("Index");
+                    }
                     user.Email = editViewModel.Email;
                     user.UserName = editViewModel.Email;
                 }
@@ -188,6 +208,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
 
                 
                 db.SaveChanges();
+                TempData["Sucesso"] = 1;
                 TempData["Message"] = "Editado com sucesso!";
 
                 return RedirectToAction("Index");
@@ -220,6 +241,7 @@ namespace SistemaDeAtendimento.Areas.Admin.Controllers
             db.AspNetUsers.Remove(aspNetUsers);
             db.SaveChanges();
 
+            TempData["Sucesso"] = 1;
             TempData["Message"] = "Deletado com sucesso!";
             return RedirectToAction("Index");
         }

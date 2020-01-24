@@ -8,12 +8,24 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-    <div class="alert alert-success">
-        @ViewBag.Message
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+    if (ViewBag.Success >= 1)
+    {
+        <div class="alert alert-success">
+            @ViewBag.Message
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Message
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
 }
 <p>
     @Html.ActionLink("Cadastrar Novo Consultor", "Register", "Consultores", new { @class = "btn btn-danger" })
@@ -45,38 +57,40 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <img style="max-width:100px" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.ActionLink("Atendimentos", "index", "Atendimentos", new { consultor = item.Id }, new { @class = "btn btn-danger" })
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-danger" })
-            </td>
-            <td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img style="max-width:100px" src="~/images/@Html.DisplayFor(modelItem => item.Foto)">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td class="text-center">
+                    @*@Html.ActionLink("Atendimentos", "index", "Atendimentos", new { Id = item.Id }, new { @class = "btn btn-danger" })*@
+                    <a href="/Admin/Atendimentos/index/@Html.DisplayFor(modelItem => item.Id)" class="btn btn-outline-danger"><i class="far fa-comments"></i></a>
+                </td>
+                <td class="text-center">
+                    @*@Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-danger" })*@
+                    <a href="/Admin/Consultores/Edit/@Html.DisplayFor(modelItem => item.Id)" class="btn btn-outline-danger"><i class="far fa-edit"></i></a>
 
-                <form action="/Admin/Consultores/Delete/@Html.DisplayFor(modelItem => item.Id)" method="POST">
-                    @Html.AntiForgeryToken()
+                </td>
+                <td class="text-center">
 
-                    <div class="form-actions no-color">
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                    </div>
-                </form>
-            </td>
-        </tr>
-    }
+                    <form id="Delete" action="/Admin/Consultores/Delete/@Html.DisplayFor(modelItem => item.Id)" method="POST">
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions no-color">
+                            <button type="submit" class="btn btn-outline-danger"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
