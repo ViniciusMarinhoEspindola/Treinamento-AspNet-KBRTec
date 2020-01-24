@@ -31,7 +31,7 @@ else
 <div style="display:flex; justify-content:center;" id="buttons">
     @Html.ActionLink("Alterar senha", "ChangePassword", "Consultor", new { @class = "btn btn-info mx-2 text-light" })
 
-    @*@Html.ActionLink("Mudar status", "ChangeStatus", new { UserId = User.Identity.GetUserId() }, new { @class = "btn btn-info mx-2 text-light", @id = "status" })*@
+    
     <button class="btn btn-info mx-2 text-light" id="status">Mudar status</button>
 </div>
 
@@ -94,8 +94,9 @@ else
             }
 
             $.connection.hub.start().done(function () {
+                chat.server.listConsultores();
                 chat.server.addToGroup("@User.Identity.GetUserId()", "@User.Identity.GetName()");
-
+                
                 $("#status").click(function () {
                     var formData = new FormData($('#userId')[0]);
                     $.ajax({

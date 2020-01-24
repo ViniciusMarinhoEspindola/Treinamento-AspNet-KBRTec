@@ -4,9 +4,11 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2 class="text-center my-5 text-danger" style="font-family:'Palatino Linotype'; font-size:45px;">Escolha o consultor com quem deseja falar</h2>
+<link href="~/Content/ConsultoresStyle.css" rel="stylesheet" />
+
+<h2 class="text-center my-5 text-danger title">Escolha o consultor com quem deseja falar</h2>
 <hr class="my-5 bg-danger" />
-<h3 class="text-muted mb-5">Consultores disponíveis:</h3>
+
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
     <div class="alert alert-danger">
@@ -16,6 +18,15 @@
         </button>
     </div>
 }
+<div class="row">
+    <h3 class="text-muted col-6 mb-5">Consultores disponíveis:</h3>
+    <form class="ml-auto col-4" action="/" method="post">
+        <div class="form-row">
+            <input type="search" id="pesquisa" class="col-8 pesquisa-consultor form-control" name="pesquisar" />
+            <button id="pesquisar" class="col-3 ml-1 btn btn-outline-danger">Pesquisar</button>
+        </div>
+    </form>
+</div>
 
 @if (User.IsInRole("Consultor"))
 {
@@ -23,8 +34,9 @@
     </div>
 }
 
-<div class="row" id="content">
+<div class="row list-consultores" id="content">
 </div>
+
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
@@ -42,7 +54,7 @@
                     content += '<div style="width: 100%;font-family:\'Palatino Linotype\';"><h4 class="text-muted text-center mt-5">Nenhum consultor disponível no momento!</h4></div>';
                 } else {
                     var url = window.location.href.split("Home");
-                    content += '<div class="card col-3">'
+                    content += '<div  class="card col-3">'
                     content += '<div class="card-deck">'
                     content += '<img class="card-img" src="' + url[0] + 'images/' + foto + '">'
                     content += '</div>'
@@ -63,7 +75,30 @@
 
 
             $.connection.hub.start().done(function () {
+                chat.server.addToGroup("todos", "visitante");
                 chat.server.listConsultores();
+                $("#pesquisar").click(function (e) {
+                    chat.server.removeFromGroup("todos", "visitante");
+                    if ($("#pesquisa").val() == "") {
+                        chat.server.addToGroup("todos", "visitante");
+                        chat.server.listConsultores();
+                    } else {
+                        chat.server.listConsultoresSearch($("#pesquisa").val());
+                    }
+                    e.preventDefault();
+                });
+                $("#pesquisar").keypress(function (e) {
+                    if (e.which == 13) {
+                        chat.server.removeFromGroup("todos", "visitante");
+                        if ($("#pesquisa").val() == "") {
+                            chat.server.addToGroup("todos", "visitante");
+                            chat.server.listConsultores();
+                        } else {
+                            chat.server.listConsultoresSearch($("#pesquisa").val());
+                        }
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>

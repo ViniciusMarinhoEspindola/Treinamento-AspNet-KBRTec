@@ -20,16 +20,32 @@ namespace SistemaDeAtendimento.ChatHub
         public void ListConsultores()
         {
             var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(a => a.Status == "Disponível").OrderByDescending(s => s.OrdemRegistros).ToList();
-            Clients.All.limpaLista();
+            Clients.Group("todos").limpaLista();
             if (User.Count() <= 0)
             {
-                Clients.All.listarConsul(false);
+                Clients.Group("todos").listarConsul(false);
             }
             else
             {
                 foreach (var item in User)
                 {
-                    Clients.All.listarConsul(true, item.Foto, item.Nome, item.Descricao, item.Email, item.Id);
+                    Clients.Group("todos").listarConsul(true, item.Foto, item.Nome, item.Descricao, item.Email, item.Id);
+                }
+            }
+        }
+        public void ListConsultoresSearch(string search)
+        {
+            var User = db.AspNetRoles.Where(s => s.Name == "Consultor").FirstOrDefault().AspNetUsers.Where(a => a.Status == "Disponível").Where(x => x.Nome.Contains(search) || x.Email.Contains(search) || x.Descricao.Contains(search)).OrderByDescending(s => s.OrdemRegistros).ToList();
+            Clients.Client(Context.ConnectionId).limpaLista();
+            if (User.Count() <= 0)
+            {
+                Clients.Client(Context.ConnectionId).listarConsul(false);
+            }
+            else
+            {
+                foreach (var item in User)
+                {
+                    Clients.Client(Context.ConnectionId).listarConsul(true, item.Foto, item.Nome, item.Descricao, item.Email, item.Id);
                 }
             }
         }
@@ -58,13 +74,7 @@ namespace SistemaDeAtendimento.ChatHub
         public void Timer(string groupName, int tempo)
         {
             TimeSpan result = TimeSpan.FromSeconds(tempo);
-            string tempoFinal = result.ToString("mm':'ss");
-//<<<<<<< HEAD
-//            //Cookies.Set("Tempo", tempo.ToString());
-//=======
-            //var variavel = modelChat.FirstOrDefault(x => x.consultor == groupName);
-            //variavel.Duracao = tempo;
-
+            string tempoFinal = result.ToString("mm':'ss");            
             Clients.Group(groupName).countTimer(tempoFinal, tempo);
         }
 
@@ -102,13 +112,6 @@ namespace SistemaDeAtendimento.ChatHub
             
         }
 
-        //public override Task OnDisconnected(bool stopCalled)
-        //{
-
-
-        //    return base.OnDisconnected(stopCalled);
-        //}
-
         public async Task AddToGroup(string groupName, string name)
         {
             await Groups.Add(Context.ConnectionId, groupName);
@@ -119,6 +122,9 @@ namespace SistemaDeAtendimento.ChatHub
         public async Task RemoveFromGroup(string groupName, string name)
         {
             await Groups.Remove(Context.ConnectionId, groupName);
+            var trocaStatus = db.AspNetUsers.Find(groupName);
+            trocaStatus.Status = "Disponível";
+            db.SaveChanges();
             await Clients.Group(groupName).leaveGroup("O usuário " + name + " foi desconectado do chat.");
         }
     }

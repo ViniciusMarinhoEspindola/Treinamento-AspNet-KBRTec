@@ -8,7 +8,7 @@
 <h2 class="text-center my-5">Chat com o consultor</h2>
 <div style="display:flex; justify-content:center">
     <div class="mr-3"><strong class="relogio">Tempo de Chat: <span class="tempoTotal "></span></strong></div>
-    <div><strong class="relogio">Tempo Percorrido: <span class="clock "></span></strong></div>
+    <div><strong class="relogio">Tempo Restante: <span class="clock "></span></strong></div>
 </div>
 
 
@@ -20,38 +20,6 @@
     
     <div class="chat-form">
         <textarea type="text" id="message"></textarea>
-        @*
-        =======
-        }
-
-
-        <h2 class="text-center mt-3">Chat com o consultor</h2>
-        <div class="row">
-            <div class="col-3"><strong>Tempo de Chat: <span class="tempoTotal"></span></strong></div>
-            <div class="col-3"><strong>Tempo Percorrido: <span class="clock"></span></strong></div>
-        </div>
-        <div class="container">
-            <div class="row">
-
-                <p id="Nome"></p>
-                <div class="col-12 my-5" style="height: 70vh; border-left: 2px solid gray; border-right: 2px solid gray; border-top: 2px solid gray; border-bottom: 2px solid gray; border-radius:10px;">
-                    <div id="discussion" style="height: 60vh; overflow:auto;">
-                    </div>
-                    <div id="digitando" style="position: absolute; bottom:15px;"></div>
-                    <div class="ml-5" style="position: absolute; bottom:-20px; width:100%">
-                        <div class="form-row">
-                            <!-- Input cadastrar mensagem -->
-                            <input type="text" class="col-9 form-control" id="message" />
-
-                            @using (Html.BeginForm("Upload", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", @id = "form" }))
-                            {
-                                <!-- Botão carregar arquivo -->
-                                <label id="fileLabel" style="height:40px; max-width:50px" class="btn btn-info col-1 py-2 mx-3" for="upload"><i class="fas fa-file-upload"></i></label>
-                                <input type="file" name="Arq" id="upload" style="display:none;" />
-                                <input type="hidden" name="pathUpl" id="pathUpl" />
-                            }
-        >>>>>>> 072176b4d1ee1f44a6916aefd9a095c25fa1abb6
-        *@
         @using (Html.BeginForm("Upload", "Chat", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", @id = "form" }))
         {
             <label for="upload" class="btn btn-info" id="fileLabel"><i class="fas fa-file-upload"></i></label>
@@ -59,7 +27,7 @@
             <input type="hidden" name="pathUpl" id="pathUpl" />
 
         }
-        <button id="sendmessage" class="btn btn-danger">Enviar</button>
+        <button id="sendmessage" class="btn btn-outline-info">Enviar</button>
 
         <!-- Nome do usuario -->
         <input type="hidden" id="displayname" />
@@ -91,7 +59,6 @@
         $(function () {
             var chat = $.connection.chatHub;
 
-
             $(".tempoTotal").html(format_hr((@Model.Visitante.Duracao * 60)))
             $("#pathUpl").val("@Model.IdConversa")
 
@@ -110,13 +77,13 @@
 
             chat.client.addNewLinkFileToPageConsultor = function (name, filename, conversa) {
                  
-                $('#discussion').append('<div class="chat consultor"><div class="img-chat"><img src="' + url[0] + 'images/@Model.AspNetUsers.Foto" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p><a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"><button class="link" id="linkDownload">' + filename + '</button></a></span></div>');
+                $('#discussion').append('<div class="chat consultor"><div class="img-chat"><img src="' + url[0] + 'images/@Model.AspNetUsers.Foto" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p><div style="width:100%; display:flex; justify-content:center"><a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '" class="link btn  my-3" id="linkDownload">' + filename + '</a></div></span></div>');
                 var height = document.getElementById("discussion").scrollHeight;
                 document.getElementById("discussion").scrollTop = height;
             }
 
             chat.client.addNewLinkFileToPageVisitante = function (name, filename, conversa) {
-                $('#discussion').append('<div class="chat visitante"><div class="img-chat"><img src="' + url[0] + 'images/Usuario/user.png" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p> <a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"><button class="link" id="linkDownload">' + filename + '</button></a></span></div>');
+                $('#discussion').append('<div class="chat visitante"><div class="img-chat"><img src="' + url[0] + 'images/Usuario/user.png" alt="Alternate Text" /></div><span class="chat-message"><p class="title">' + name + '</p> <div style="width:100%; display:flex; justify-content:center"><a target="_blank" href="/Chat/Download/?path=' + conversa + '&filename=' + filename + '"  class="link btn my-3" id="linkDownload">' + filename + '</a></div></span></div>');
                 var height = document.getElementById("discussion").scrollHeight;
                 document.getElementById("discussion").scrollTop = height;
             };
@@ -166,6 +133,7 @@
             $('#message').focus();
 
             $.connection.hub.start().done(function () {
+                chat.server.listConsultores();
                 chat.server.addToGroup("@Model.AspNetUsers.Id", $('#displayname').val());
 
                 chat.server.chatLink("@Model.AspNetUsers.Id", @Model.IdConversa);

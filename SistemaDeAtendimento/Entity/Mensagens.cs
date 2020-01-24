@@ -17,8 +17,8 @@ namespace SistemaDeAtendimento.Entity
         public int IdMensagem { get; set; }
         public string Mensagem { get; set; }
         public Nullable<bool> Remetente { get; set; }
-        public System.DateTime data { get; set; }
-        public int ConversaId { get; set; }
+        public Nullable<System.DateTime> data { get; set; }
+        public Nullable<int> ConversaId { get; set; }
         public string Arquivos { get; set; }
     
         public virtual Conversa Conversa { get; set; }
