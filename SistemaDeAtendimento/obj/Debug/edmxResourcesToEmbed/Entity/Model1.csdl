@@ -99,6 +99,7 @@
     <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Duracao" Type="Int32" />
     <NavigationProperty Name="Conversa" Relationship="Self.FK_Conversa_Visitante" FromRole="Visitante" ToRole="Conversa" />
+    <Property Name="TempoRestante" Type="Int32" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">

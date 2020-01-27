@@ -16,7 +16,7 @@ namespace SistemaDeAtendimento.Controllers
     public class ChatController : Controller
     {
         private SistemaAtendimentoEntities db = new SistemaAtendimentoEntities();
-        private List<ChatViewModel> modelChat = new List<ChatViewModel>();
+
         // GET: Chat
         public ActionResult Index(int Id)
         {
@@ -24,16 +24,9 @@ namespace SistemaDeAtendimento.Controllers
             if (User.IsInRole("Consultor"))
             {
                 ViewBag.Consultor = 1;
-                ViewBag.Cronometro = 0;
             }
             else
-            {
-                ViewBag.Cronometro = TempData["cronometro"];
-                if (ViewBag.Cronometro != 0)
-                {
-                    TempData["Message"] = "Desculpe, mas você se desconectou do chat!";
-                    return RedirectToAction("index", "Home");
-                }
+            {               
                 ViewBag.Consultor = 0;
             }
             return View(conversa);

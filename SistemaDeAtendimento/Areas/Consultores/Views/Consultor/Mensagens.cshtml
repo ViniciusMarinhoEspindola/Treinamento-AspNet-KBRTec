@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SistemaDeAtendimento.Entity.Mensagens>
 @{
     ViewBag.Title = "Mensagens";
-    ViewBag.TempoConversa = (Model.First().Conversa.Visitante.Duracao * 60);
+    ViewBag.TempoConversa = ((Model.First().Conversa.Visitante.Duracao * 60) -  Model.First().Conversa.Visitante.TempoRestante);
 }
 <link href="~/Content/ChatStyle.css" rel="stylesheet" />
 

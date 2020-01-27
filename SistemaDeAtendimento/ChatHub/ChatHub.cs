@@ -71,10 +71,13 @@ namespace SistemaDeAtendimento.ChatHub
             }
         }
 
-        public void Timer(string groupName, int tempo)
+        public void Timer(string groupName, int tempo, int visitante)
         {
             TimeSpan result = TimeSpan.FromSeconds(tempo);
-            string tempoFinal = result.ToString("mm':'ss");            
+            string tempoFinal = result.ToString("mm':'ss");
+            var tempoRestante = db.Visitante.Find(visitante);
+            tempoRestante.TempoRestante = tempo;
+            db.SaveChanges();
             Clients.Group(groupName).countTimer(tempoFinal, tempo);
         }
 

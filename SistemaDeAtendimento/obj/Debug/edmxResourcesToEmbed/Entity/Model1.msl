@@ -86,6 +86,7 @@
     <EntitySetMapping Name="Visitante">
       <EntityTypeMapping TypeName="SistemaAtendimentoModel.Visitante">
         <MappingFragment StoreEntitySet="Visitante">
+          <ScalarProperty Name="TempoRestante" ColumnName="TempoRestante" />
           <ScalarProperty Name="IdVisitante" ColumnName="IdVisitante" />
           <ScalarProperty Name="Nome" ColumnName="Nome" />
           <ScalarProperty Name="Email" ColumnName="Email" />

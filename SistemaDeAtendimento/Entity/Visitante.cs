@@ -25,6 +25,7 @@ namespace SistemaDeAtendimento.Entity
         public string Email { get; set; }
         public string Celular { get; set; }
         public Nullable<int> Duracao { get; set; }
+        public Nullable<int> TempoRestante { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Conversa> Conversa { get; set; }

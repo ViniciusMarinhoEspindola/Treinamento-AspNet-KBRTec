@@ -38,7 +38,9 @@ namespace SistemaDeAtendimento.Controllers
             {
                 var visita = db.Visitante.Add(visitante);
                 db.SaveChanges();
-                
+                visita.TempoRestante = (visita.Duracao * 60);
+                db.SaveChanges();
+
                 return RedirectToAction("Entrar", "Chat", new { groupId = Id, visitanteId = visita.IdVisitante });
             }
             return View(visitante);

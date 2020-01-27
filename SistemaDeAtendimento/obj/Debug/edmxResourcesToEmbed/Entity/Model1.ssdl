@@ -95,6 +95,7 @@
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
     <Property Name="Celular" Type="nvarchar" MaxLength="50" />
     <Property Name="Duracao" Type="int" />
+    <Property Name="TempoRestante" Type="int" />
   </EntityType>
   <Association Name="FK_Conversa_Consultor">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />

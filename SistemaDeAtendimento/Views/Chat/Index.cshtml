@@ -1,7 +1,7 @@
 ﻿@model SistemaDeAtendimento.Entity.Conversa
 @{
     ViewBag.Title = "Chat";
-    ViewBag.Tempo = (@Model.Visitante.Duracao * 60);
+    ViewBag.Tempo = @Model.Visitante.TempoRestante;
 }
 <link href="~/Content/ChatStyle.css" rel="stylesheet" />
 
@@ -103,7 +103,7 @@
                     if (!@ViewBag.Consultor) {
                         tempo = tempo - 1;
 
-                        var repetir = setTimeout(function () { chat.server.timer("@Model.AspNetUsers.Id", tempo); }, 1000);
+                        var repetir = setTimeout(function () { chat.server.timer("@Model.AspNetUsers.Id", tempo, @Model.VisitanteId); }, 1000);
                     }
                 } else {
                     chat.server.removeFromGroup("@Model.AspNetUsers.Id", $('#displayname').val());
@@ -173,16 +173,7 @@
                 });
 
                 if (!@ViewBag.Consultor) {
-
-                   if (@ViewBag.Cronometro) {
-                        console.log("ola")
-                        chat.server.removeFromGroup("@Model.AspNetUsers.Id", $('#displayname').val());
-                        let url = window.location.href.split("Chat");
-                        window.location.href = url[0];
-
-                    }
-                    
-                    chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Tempo);
+                    chat.server.timer("@Model.AspNetUsers.Id", @ViewBag.Tempo, @Model.VisitanteId);
                 }
             });
         });
